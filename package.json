@@ -2,7 +2,9 @@
   "dependencies": {
     "@vitejs/plugin-react": "^5.1.1",
     "concurrently": "^8.2.0",
-    "mongoose": "^9.0.0"
+    "mongoose": "^9.0.0",
+    "@tailwindcss/postcss": "^4.1.17"
+
   },
   "name": "onlinemeeting",
   "version": "1.0.0",
