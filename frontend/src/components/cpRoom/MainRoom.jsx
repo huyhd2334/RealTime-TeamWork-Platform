@@ -2,13 +2,20 @@ import React, { useState, useEffect, useRef } from "react";
 import Video from "twilio-video";
 import api from "@/lib/axios";
 import { toast } from "sonner";
+import { useNavigate } from "react-router";
+import { Button } from '../ui/button';
 
 const MainRoom = ({ roomCode }) => {
   const localVideoRef = useRef();
   const remoteVideosRef = useRef();
   const [room, setRoom] = useState(null);
+  const [join, setJoin] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
+    if (join) {
+      return navigate("/createroom")
+    }
     if (!roomCode) return;
 
     const joinRoom = async () => {
@@ -89,24 +96,27 @@ const MainRoom = ({ roomCode }) => {
         room.disconnect();
       }
     };
-  }, [roomCode]);
+  }, [roomCode, join]);
 
   return (
+    <div className="flex flex-col justify-center items-center pl-40 space-y-5 ">
+      <Button className="w-30 h-10 text-xl font-bold" onClick={() => {setJoin(pre => !pre)}}> Leave Room </Button>
     <div className="flex flex-row space-x-10 justify-center items-center">
       <div className="flex flex-col space-y-2 text-2xl font-semibold">
         <h3>Your Camera</h3>
         <video ref={localVideoRef} autoPlay muted
-               style={{ width: 300, backgroundColor: "black", borderRadius: "10px" }}
+               className="flex rounded-4xl w-80 h-60 overflow-hidden"
         />
       </div>
       <div className="flex flex-col space-y-2 text-2xl font-semibold">
         <h3>Other Participants</h3>
         <div
           ref={remoteVideosRef}
-          style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}
+          className="flex rounded-4xl w-80 h-60 overflow-hidden"
         />
       </div>
     </div>
+  </div>
   );
 };
 
