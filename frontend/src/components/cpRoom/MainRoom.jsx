@@ -92,17 +92,14 @@ const MainRoom = ({ roomCode }) => {
   }, [roomCode]);
 
   return (
-    <div style={{ display: "flex", gap: "20px", padding: "20px" }}>
-      <div>
+    <div className="flex flex-row space-x-10 justify-center items-center">
+      <div className="flex flex-col space-y-2 text-2xl font-semibold">
         <h3>Your Camera</h3>
-        <video
-          ref={localVideoRef}
-          autoPlay
-          muted
-          style={{ width: 300, backgroundColor: "black", borderRadius: "10px" }}
+        <video ref={localVideoRef} autoPlay muted
+               style={{ width: 300, backgroundColor: "black", borderRadius: "10px" }}
         />
       </div>
-      <div>
+      <div className="flex flex-col space-y-2 text-2xl font-semibold">
         <h3>Other Participants</h3>
         <div
           ref={remoteVideosRef}
