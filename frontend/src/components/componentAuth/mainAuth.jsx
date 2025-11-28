@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button } from '../ui/button'
 import api from '@/lib/axios'
 import { toast } from 'sonner'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 const mainAuth = () => {
   const [userName, setUserName] = useState("")
