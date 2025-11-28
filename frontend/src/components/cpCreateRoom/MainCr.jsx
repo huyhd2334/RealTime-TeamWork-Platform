@@ -43,8 +43,11 @@ const MainCr = () => {
   const initLocalStream = async () => {
     const pc = new RTCPeerConnection({
       iceServers: [
+        { urls: "stun:stun.l.google.com:19302" },
         {
-          urls: "stun:stun.l.google.com:19302"
+          urls: "turn:global.turn.twilio.com:3478?transport=udp",
+          username: "public",
+          credential: "public"
         }
       ]
     });
