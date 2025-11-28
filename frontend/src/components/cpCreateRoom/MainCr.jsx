@@ -36,7 +36,14 @@ const MainCr = () => {
   };
 
   const initLocalStream = async () => {
-    const pc = new RTCPeerConnection();
+    const pc = new RTCPeerConnection({
+      iceServers: [
+        {
+          urls: "stun:stun.l.google.com:19302"
+        }
+      ]
+    });
+
     pcRef.current = pc;
 
     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -44,8 +51,8 @@ const MainCr = () => {
     stream.getTracks().forEach(track => pc.addTrack(track, stream));
 
     pc.onicecandidate = (event) => {
-      if (event.candidate && roomCode) {
-        socket.emit("ice-candidate", { candidate: event.candidate, roomCode });
+      if (event.candidate && peerId) {
+        socket.emit("ice-candidate", { candidate: event.candidate, to: peerId });
       }
     };
 
@@ -53,7 +60,7 @@ const MainCr = () => {
       remoteVideo.current.srcObject = event.streams[0];
     };
   };
-
+  
   useEffect(() => {
     socket.on("user-joined", async (peerId) => {
       const pc = pcRef.current;
@@ -68,22 +75,27 @@ const MainCr = () => {
     socket.on("offer", async (data) => {
       const pc = pcRef.current;
       await pc.setRemoteDescription(new RTCSessionDescription(data.sdp));
+
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
-      socket.emit("answer", { sdp: answer, roomCode });
+
+      socket.emit("answer", { sdp: answer, to: data.from });
     });
 
     socket.on("answer", async (data) => {
       const pc = pcRef.current;
       await pc.setRemoteDescription(new RTCSessionDescription(data.sdp));
     });
-
     socket.on("ice-candidate", async (data) => {
       const pc = pcRef.current;
-      try { await pc.addIceCandidate(new RTCIceCandidate(data.candidate)); } 
-      catch (err) { console.error(err); }
+      if (data.candidate) {
+        try {
+          await pc.addIceCandidate(new RTCIceCandidate(data.candidate));
+        } catch (err) {
+          console.error(err);
+        }
+      }
     });
-
     return () => {
       socket.off("user-joined");
       socket.off("offer");
