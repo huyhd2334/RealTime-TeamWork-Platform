@@ -19,6 +19,10 @@ const MainCr = () => {
 
   const handleCreateRoom = async () => {
     const response = await api.get("/createroom");
+    await initLocalStream();
+    setJoined(true);
+    socket.emit("join-room", response.data.code);
+
     if (response.data.message) {
       setIdRoom(response.data.code);
       setRoomCode(response.data.code);
