@@ -57,20 +57,29 @@ io.on("connection", (socket) => {
   socket.on("join-room", async (code) => {
     console.log("Joining room:", code);
     socket.join(code);
+
+    const clients = Array.from(io.sockets.adapter.rooms.get(code) || []);
+    const otherClients = clients.filter(id => id !== socket.id);
+
     socket.to(code).emit("user-joined", socket.id);
+
+    otherClients.forEach(id => {
+      socket.emit("user-joined", id);
+    });
+
     socket.emit("joined-room", code);
   });
 
-  socket.on("offer", (data) => {
-    socket.to(data.roomCode).emit("offer", { sdp: data.sdp, from: socket.id });
+  socket.on("offer", ({ sdp, to }) => {
+    socket.to(to).emit("offer", { sdp, from: socket.id });
   });
 
-  socket.on("answer", (data) => {
-    socket.to(data.roomCode).emit("answer", { sdp: data.sdp, from: socket.id });
+  socket.on("answer", ({ sdp, to }) => {
+    socket.to(to).emit("answer", { sdp, from: socket.id });
   });
 
-  socket.on("ice-candidate", (data) => {
-    socket.to(data.roomCode).emit("ice-candidate", { candidate: data.candidate, from: socket.id });
+  socket.on("ice-candidate", ({ candidate, to }) => {
+    socket.to(to).emit("ice-candidate", { candidate, from: socket.id });
   });
 
   socket.on("disconnect", () => {

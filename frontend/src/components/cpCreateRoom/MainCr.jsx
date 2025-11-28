@@ -36,31 +36,33 @@ const MainCr = () => {
   };
 
   const initLocalStream = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    localVideo.current.srcObject = stream;
-
     const pc = new RTCPeerConnection();
     pcRef.current = pc;
 
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    localVideo.current.srcObject = stream;
     stream.getTracks().forEach(track => pc.addTrack(track, stream));
-
-    pc.ontrack = (event) => {
-      remoteVideo.current.srcObject = event.streams[0];
-    };
 
     pc.onicecandidate = (event) => {
       if (event.candidate && roomCode) {
         socket.emit("ice-candidate", { candidate: event.candidate, roomCode });
       }
     };
+
+    pc.ontrack = (event) => {
+      remoteVideo.current.srcObject = event.streams[0];
+    };
   };
 
   useEffect(() => {
-    socket.on("user-joined", async () => {
+    socket.on("user-joined", async (peerId) => {
       const pc = pcRef.current;
+      if (!pc) return;
+
       const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);
-      socket.emit("offer", { sdp: offer, roomCode });
+
+      socket.emit("offer", { sdp: offer, to: peerId, roomCode });
     });
 
     socket.on("offer", async (data) => {
