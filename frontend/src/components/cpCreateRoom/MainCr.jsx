@@ -8,6 +8,7 @@ import { Presentation, Video } from 'lucide-react'
 const socket = io("https://live-meeting.onrender.com", { withCredentials: true });
 
 const MainCr = () => {
+  const peerIdRef = useRef(null);
   const [idRoom, setIdRoom] = useState("");
   const [code, setCode] = useState("");
   const [roomCode, setRoomCode] = useState("");
@@ -51,8 +52,11 @@ const MainCr = () => {
     stream.getTracks().forEach(track => pc.addTrack(track, stream));
 
     pc.onicecandidate = (event) => {
-      if (event.candidate && peerId) {
-        socket.emit("ice-candidate", { candidate: event.candidate, to: peerId });
+      if (event.candidate && peerIdRef.current) {
+        socket.emit("ice-candidate", {
+          candidate: event.candidate,
+          to: peerIdRef.current
+        });
       }
     };
 
@@ -60,9 +64,10 @@ const MainCr = () => {
       remoteVideo.current.srcObject = event.streams[0];
     };
   };
-  
+
   useEffect(() => {
     socket.on("user-joined", async (peerId) => {
+      peerIdRef.current = peerId;
       const pc = pcRef.current;
       if (!pc) return;
 
