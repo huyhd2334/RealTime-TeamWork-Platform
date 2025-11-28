@@ -1,4 +1,3 @@
-// /lib/axios.js
 import axios from "axios";
 import { getNewAccessToken } from "@/lib/auth";
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import MainAuth from '@/components/componentAuth/mainAuth.jsx'
+import MainAuth from '@/components/cpAuth/mainAuth.jsx'
 
 const pageLoginSignup = () => {
   return (

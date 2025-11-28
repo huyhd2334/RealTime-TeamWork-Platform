@@ -20,7 +20,6 @@ const mainAuth = () => {
       if(res.data.message){
         const accessToken = res.data.accessToken
         localStorage.setItem("accessToken", accessToken) 
-        api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
         localStorage.setItem("userAccount", accountName);
         navigate("/createroom", { state: { user: accountName}})

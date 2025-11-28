@@ -1,7 +1,8 @@
 import {Toaster} from "sonner"
 import {BrowserRouter, Routes, Route} from "react-router-dom"
-import PageLoginSignup from "./pages/pageLoginSignup.jsx"
-import PageCreateRoom from "./pages/pageCreateRoom.jsx"
+import PageLoginSignup from "./pages/PageLoginSignup.jsx"
+import PageCreateRoom from "./pages/PageCreateRoom.jsx"
+import PageRoom from "./pages/PageRoom.jsx"
 
 function App() {
   return (
@@ -16,6 +17,10 @@ function App() {
           <Route
               path = "/createroom"
               element = {<PageCreateRoom/>} 
+              />
+          <Route
+              path = "/liveroom"
+              element = {<PageRoom/>} 
               />
         </Routes>
     </BrowserRouter>

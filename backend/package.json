@@ -22,7 +22,8 @@
     "mongoose": "^9.0.0",
     "onlinemeeting": "file:..",
     "path": "^0.12.7",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "twilio": "^5.10.6"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
