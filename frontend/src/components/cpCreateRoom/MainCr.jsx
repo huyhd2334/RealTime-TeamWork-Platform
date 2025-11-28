@@ -5,7 +5,7 @@ import api from '@/lib/axios';
 import { io } from "socket.io-client";
 import { Presentation, Video } from 'lucide-react'
 
-const socket = io("http://localhost:8386", { withCredentials: true });
+const socket = io("https://live-meeting.onrender.com", { withCredentials: true });
 
 const MainCr = () => {
   const [idRoom, setIdRoom] = useState("");
@@ -93,6 +93,7 @@ const MainCr = () => {
     <div>
       { joined ? (
       <div>
+        <Button onClick={()=>{setJoined(pre => !pre)}}> Leave Room </Button>
         <div style={{display: 'flex', gap: 20, marginTop: 20}}>
           <video className='rounded-4xl' ref={localVideo} autoPlay playsInline muted style={{width: 300, backgroundColor: 'black'}} />
           <video className='rounded-4xl' ref={remoteVideo} autoPlay playsInline style={{width: 300, backgroundColor: 'black'}} />

@@ -11,8 +11,6 @@ import http from "http"; // socket
 import { Server } from "socket.io"; // socket
 import roomRouter from "./routers/routeCrRoom.js"
 
-import Meetings from "./models/Meetings.js"
-
 const app = express()
 dotenv.config();
 const __dirname = path.resolve();
@@ -25,7 +23,7 @@ app.use(cookieParser())
 
 cors
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "*",
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
