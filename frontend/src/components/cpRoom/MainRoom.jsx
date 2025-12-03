@@ -104,14 +104,14 @@ const MainRoom = ({ roomCode }) => {
       <div className="flex flex-col space-y-2 text-2xl font-semibold">
         <h3>Your Camera</h3>
         <video ref={localVideoRef} autoPlay muted
-               className="flex rounded-4xl w-80 h-60 overflow-hidden"
+               className="flex rounded-4xl  overflow-hidden"
         />
       </div>
       <div className="flex flex-col space-y-2 text-2xl font-semibold space-x-2 overflow-y-scroll">
         <h3>Other Participants</h3>
         <div
           ref={remoteVideosRef}
-          className="flex rounded-4xl w-80 h-60 overflow-hidden"
+          className="flex rounded-4xl overflow-hidden"
         />
       </div>
     </div>
