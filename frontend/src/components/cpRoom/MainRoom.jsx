@@ -86,7 +86,6 @@ const MainRoom = ({ roomCode }) => {
 
     joinRoom();
 
-    /** Cleanup on exit */
     return () => {
       if (room) {
         room.localParticipant.tracks.forEach(publication => {
@@ -108,7 +107,7 @@ const MainRoom = ({ roomCode }) => {
                className="flex rounded-4xl w-80 h-60 overflow-hidden"
         />
       </div>
-      <div className="flex flex-col space-y-2 text-2xl font-semibold">
+      <div className="flex flex-col space-y-2 text-2xl font-semibold space-x-2 overflow-y-scroll">
         <h3>Other Participants</h3>
         <div
           ref={remoteVideosRef}
