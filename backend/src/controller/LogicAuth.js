@@ -34,7 +34,7 @@ export const createAccount = async(req,res) => {
 }
 export const loginAccount = async (req, res) => {
     try {
-        const {accountName, passW} = req.body;
+        const {accountName, passW, device} = req.body;
         if(!accountName || !passW) {
             return res.json({ message: false });
         }
@@ -49,7 +49,7 @@ export const loginAccount = async (req, res) => {
             return res.json({ message: false })
         }
         // access token
-        const accessToken = jwt.sign({user_id: checkAccountName._id}, process.env.ACCESS_TOKEN_SCRETE, {expiresIn: ACCESS_TOKEN_TTL})
+        const accessToken = jwt.sign({user_id: checkAccountName._id}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: ACCESS_TOKEN_TTL})
         
         // generate refresh token
         const refreshToken = crypto.randomBytes(64).toString("hex")
@@ -57,30 +57,41 @@ export const loginAccount = async (req, res) => {
         // generate new session to save refresh token
         await Session.create({userId: checkAccountName._id, refreshToken, expiresAt: new Date(Date.now() + REFRESH_TOKEN_TTL),})
         
-        // return refresh token to cookie
-        res.cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "none",
-        maxAge: REFRESH_TOKEN_TTL,
-        })
-
-        const last = new Date(checkAccountName.lastLogin);
-        const now = new Date();
- 
-        if (last.toDateString() !== now.toDateString()) {
-            checkAccountName.streak += 1;
-            checkAccountName.lastLogin = now;
-            await checkAccountName.save();
+        // set cookies
+        if(device==="web"){
+            res
+            .cookie("accessToken", accessToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                maxAge: 30 * 60 * 1000,
+            })
+            .cookie("refreshToken", refreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                maxAge: REFRESH_TOKEN_TTL,
+            })
+            .status(200)
+            .json({
+                message: true,
+                detail: `User ${checkAccountName.userName} logged in!`,
+            });
+        }else{
+            res.status(200).json({
+            message: true,
+            accessToken,
+            refreshToken,
+            detail: `User ${checkAccountName.userName} logged in!`,
+            });
         }
-        return res.status(200).json({message: true ,detail: `User ${checkAccountName.userName} logged in !`, accessToken})
     } catch (error) {
         console.error("ERROR login:", error);
         return res.status(500).json({ message: false, error: "Internal server error" });
     }
 };
 
-export const logout = async(req, res) => {
+export const logoutAccount = async(req, res) => {
     try {
         // get refresh token from cookie
         const token = req.cookies?.refreshToken;
@@ -101,3 +112,54 @@ export const logout = async(req, res) => {
         return res.status(500).json({message: "internal errors"})
     }
 }
+
+export const refreshToken = async (req, res) => {
+  try {
+    let refreshToken;
+
+    // Web → cookie
+    if (req.cookies?.refreshToken) {
+      refreshToken = req.cookies.refreshToken;
+    } 
+    // Mobile → body
+    else if (req.body?.refreshToken) {
+      refreshToken = req.body.refreshToken;
+    }
+
+    if (!refreshToken) {
+      return res.status(401).json({ message: "Refresh token required" });
+    }
+
+    const session = await Session.findOne({ refreshToken });
+    if (!session || session.expiresAt < new Date()) {
+      return res.status(403).json({ message: "Invalid refresh token" });
+    }
+
+    const newAccessToken = jwt.sign(
+      { user_id: session.userId },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: ACCESS_TOKEN_TTL }
+    );
+
+    // Web → cookie
+    if (req.cookies?.refreshToken) {
+      return res
+        .cookie("accessToken", newAccessToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          maxAge: ACCESS_TOKEN_TTL,
+        })
+        .json({ message: true });
+    }
+
+    // Mobile → trả JSON
+    return res.json({ message: true, accessToken: newAccessToken });
+
+  } catch (error) {
+    console.error("Refresh token error:", error);
+    return res.status(500).json({ message: false });
+  }
+};
+
+

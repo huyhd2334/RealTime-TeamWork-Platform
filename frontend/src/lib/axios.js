@@ -1,59 +1,38 @@
 import axios from "axios";
-import { getNewAccessToken } from "@/lib/auth";
 
-const BASE_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:8386/api"
-    : "/api";
+const BASE_URL =  import.meta.env.MODE === "development"
+                                            ? "http://localhost:8386/api"
+                                            : "/api";
 
-// Tạo instance axios
 const api = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true, // gửi cookie refresh token
+  withCredentials: true, 
 });
 
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      config.headers = {
-        ...config.headers,
-        Authorization: `Bearer ${token}`,
-      };
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+// Gọi API refresh token
+export const getNewAccessToken = async () => {
+  try {
+    await api.post("/refresh-accesstoken");
+    return true;
+  } catch (err) {
+    window.location.href = "/login";
+    return false;
+  }
+};
 
-// Response interceptor: nếu 401 → refresh token → retry request
 api.interceptors.response.use(
-  (response) => response,
+  (res) => res,
   async (error) => {
-    const originalRequest = error.config;
+    const original = error.config;
 
-    // Chỉ retry 1 lần
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (error.response?.status === 401 && !original._retry) {
+      original._retry = true;
 
-      try {
-        const newToken = await getNewAccessToken();
-        if (!newToken) throw new Error("Refresh token failed");
-
-        // Gắn token mới cho request này
-        originalRequest.headers = {
-          ...originalRequest.headers,
-          Authorization: `Bearer ${newToken}`,
-        };
-
-        return api(originalRequest);
-      } catch (err) {
-        // nếu refresh fail → redirect login
-        window.location.href = "/login";
-        return Promise.reject(err);
+      const refreshed = await getNewAccessToken();
+      if (refreshed) {
+        return api(original);
       }
     }
-
     return Promise.reject(error);
   }
 );

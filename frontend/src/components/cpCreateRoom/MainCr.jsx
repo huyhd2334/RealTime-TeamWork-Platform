@@ -12,14 +12,19 @@ const MainCr = () => {
   const navigate = useNavigate()
 
   const handleCreateRoom = async () => {
-    const response = await api.get("/createroom");
-    if (response.data.message) {
-      setIdRoom(response.data.code);
-      setRoomCode(response.data.code);
-      toast.success("Room created!");
-    } else {
-      toast.error("Failed to create room!");
-    }
+        try {
+          const response = await api.get("/createroom");
+          if (response.data.message) {
+            setIdRoom(response.data.code);
+            setRoomCode(response.data.code);
+            toast.success("Room created!");
+          } else {
+            toast.error("Failed to create room!");
+          }
+        } catch (error) {
+          console.log(error)
+          return 
+        }
   };
 
   const handleJoinRoom = async () => {

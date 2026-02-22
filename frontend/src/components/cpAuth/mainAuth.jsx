@@ -15,14 +15,11 @@ const mainAuth = () => {
       try{
       // api + jwt
       const res = await api.post("/auth/login", 
-                                 { accountName, passW: passW }, 
+                                 { accountName, passW: passW, device: "web" }, 
                                  { withCredentials: true }) // cookie refreshToken 
       if(res.data.message){
-        const accessToken = res.data.accessToken
-        localStorage.setItem("accessToken", accessToken) 
-
         localStorage.setItem("userAccount", accountName);
-        navigate("/createroom", { state: { user: accountName}})
+        navigate("/homepage", { state: { user: accountName}})
         toast.success(res.data.detail)
         setAccountName("")
         setPassW("")

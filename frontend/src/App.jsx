@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom"
 import PageLoginSignup from "./pages/pageLoginSignup.jsx"
 import PageCreateRoom from "./pages/pageCreateRoom.jsx"
 import PageRoom from "./pages/PageRoom.jsx"
+import PageHome from "./pages/pageHome.jsx"
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
           <Route
               path = "/liveroom"
               element = {<PageRoom/>} 
+              />
+          <Route
+              path = "/homepage"
+              element = {<PageHome/>}
               />
         </Routes>
     </BrowserRouter>
