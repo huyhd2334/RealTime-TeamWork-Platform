@@ -1,6 +1,6 @@
 <h1>Project Structer</h1>
-<a>
-  src/
+```
+src/
 │
 ├── server.js
 ├── app.js
@@ -29,4 +29,5 @@
 │
 └── utils/
       jwt.js
+```
 </a>
