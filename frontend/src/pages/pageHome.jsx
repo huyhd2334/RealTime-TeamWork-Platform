@@ -1,10 +1,12 @@
-import HeaderHomePage from '@/components/cpMainNavidator/HeaderHomePage.jsx'
+import MainHomePage from '@/components/cpHomePage/MainHomePage.jsx'
+import HeaderHomePage from '@/components/cpMainNavigator/HeaderHomePage.jsx'
 import React from 'react'
 
 const PageHome = () => {
   return (
     <div>
       <HeaderHomePage/>
+      <MainHomePage/>
     </div>
   )
 }
