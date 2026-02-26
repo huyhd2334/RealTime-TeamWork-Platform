@@ -9,7 +9,8 @@ body {
 }
 
 .SideBar {
-   flex: 1; 
+   flex: 1.2;
+   display: flex; 
    overflow-y: auto;
    background-color: #021027;
    opacity: 0.9;
@@ -17,27 +18,14 @@ body {
    justify-items: center;
    align-items: center;
 }
-.MainContent {
-    flex:4;
-    overflow-y: auto;
-    background-color: #021027;
-    border: 1px solid rgba(255, 255, 255, 0.15)
-}
 
-.RightPanel {
-    flex:1.5;
-    overflow-y: auto;
-    background-color: #021027;
-    opacity: 0.9;
-
-}
 
 .sideBarOption {
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     display: flex;
     flex-direction: row;
     color: white;
-    font-size: x-large;
+    font-size: large;
     font-weight: 600;
     cursor: pointer;
     opacity: 0.8;
@@ -45,11 +33,68 @@ body {
     padding-left: 40px;
     gap: 12px;
     align-items: center;
-    height: 80px;
+    height: 50px;
 }
 
-.sideBarOption:hover{
+.sideBarOption:hover {
     opacity: 1;
-    background: rgba(255, 255, 255, 0.1);
-    color: #5d97f4
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.activate{
+    border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+
+.RightPanel {
+    flex:1.5;
+    overflow-y: auto;
+    background-color: #021027;
+    opacity: 0.9;
+    flex-direction: column;
+    align-items: center;
+    justify-items: start;
+    padding: 16px;
+}
+
+.chatContainer {
+    display: flex;
+    flex-direction: column;
+    padding-top: 18px;
+    width: 100%;
+}
+
+.friendChat {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-size: larger;
+    font-weight: 400;
+    width: 100%;
+    padding: 12px;
+    cursor: pointer;
+    
+}
+
+.chat {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    font-size: medium;
+    font-weight: 400;
+}
+
+.friendChat:hover{
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+}
+
+.MainContent {
+    flex:4.5;
+    overflow-y: auto;
+    background-color: #021027;
+    border: 1px solid rgba(255, 255, 255, 0.15)
 }

@@ -8,6 +8,7 @@ import routerAuth from "./routers/routeAuth.js"
 import { protectedRouter } from "./middlewares/authMiddleware.js"
 import roomRouter from "./routers/routeCrRoom.js"
 import twilio from "twilio"; 
+import Team from "./routers/routeTeam.js"
 
 const app = express()
 dotenv.config();
@@ -31,6 +32,7 @@ app.use(cors({
 app.use("/api/auth", routerAuth)
 // private routers
 app.use("/api", protectedRouter, roomRouter)
+app.use("/api/team", protectedRouter, Team)
 
 const AccessToken = twilio.jwt.AccessToken;
 const VideoGrant = AccessToken.VideoGrant;
@@ -49,6 +51,7 @@ app.get("/api/tokentwilio", (req, res) => {
   token.addGrant(new VideoGrant({ room }));
   res.json({ token: token.toJwt(), identity });
 });
+
 if (process.env.NODE_ENV === "production") {
    app.use(express.static(path.join(__dirname, "../frontend/dist")));
 

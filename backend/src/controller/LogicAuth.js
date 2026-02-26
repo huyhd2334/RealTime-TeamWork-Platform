@@ -17,7 +17,7 @@ export const createAccount = async(req,res) => {
         if(!checkExisUser){
 
             // hashpasw
-            const hashPassW = await bcrypt.hash(passW, 10) // salt = 10
+            const hashPassW = await bcrypt.hash(passW, 10)
             
             const account = new Account({userName: userName, accountName: accountName, hashPassW: hashPassW, lastLogin: Date.now()})
             await account.save()

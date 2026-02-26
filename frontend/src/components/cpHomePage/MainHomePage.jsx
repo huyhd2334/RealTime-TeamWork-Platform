@@ -1,12 +1,12 @@
 import styles from './homePage.module.css'
 import MainContent from './MainContent.jsx'
 import RightPanel from './RightPanel.jsx'
-import SlideBar from './SlideBar.jsx'
+import SideBar from './SideBar.jsx'
 
 const MainHomePage = () => {
   return (
     <div className={styles.layOut}>
-        <SlideBar/>
+        <SideBar/>
         <MainContent/>
         <RightPanel/>
     </div>

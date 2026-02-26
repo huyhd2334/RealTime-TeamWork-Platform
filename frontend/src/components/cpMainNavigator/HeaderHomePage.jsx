@@ -15,7 +15,7 @@ const HeaderHomePage = () => {
        </div> 
        <div className={`${styles.sologan}`}>
           <a>WELLCOME BACK, QUOCHUY</a>
-          <a className='text-sm font-medium'>You have 4 task to wrap up today</a>
+          <a className='text-sm font-medium'>You have 4 task to wrap up today.</a>
        </div>
     </div>
     <div className='flex flex-row space-x-4 justify-center items-center'>

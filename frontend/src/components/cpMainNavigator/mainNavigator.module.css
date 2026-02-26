@@ -28,8 +28,9 @@
    flex-direction: column;
    gap: 4px;
    color: white;
-   font-weight: 800;
+   font-weight: 650;
    font-size:x-large;  
+   width: 250px;
 }
 
 .user {
