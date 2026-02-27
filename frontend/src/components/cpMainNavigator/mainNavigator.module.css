@@ -13,7 +13,7 @@
    padding-left: 24px;
    padding-right: 30px;
 
-   opacity: 0.9;
+   opacity: 0.95;
    border: 1px solid rgba(255, 255, 255, 0.15)
 }
 
@@ -52,15 +52,14 @@
    flex-direction: row;
    gap: 2px;
    background-color: rgba(255,255,255,0.1);
-   border: 2px solid white;
    color: white;
-   padding: 4px;
+   padding: 8px;
    width: 250px;
    height: 40px;
    border-radius: 15px;
    justify-items: center;
    align-items: center;
-   opacity: 0.8;
+   opacity: 0.6;
 }
 
 .search:hover {

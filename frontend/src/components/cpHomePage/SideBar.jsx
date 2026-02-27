@@ -2,17 +2,14 @@ import React, { useState } from 'react'
 import styles from './homePage.module.css'
 import { ClipboardList, LayoutDashboard, Settings, Users, Video } from 'lucide-react'
 
-const SideBar = () => {
-  const [active, setActive] = useState("dashboard")
-
+const SideBar = ({active, setActive}) => {
   return (
     <div className={styles.SideBar}>
-
       <div
         className={`${styles.sideBarOption} ${active === "dashboard" ? styles.activate : ""}`}
         onClick={() => setActive("dashboard")}
       >
-        <LayoutDashboard size={30}/> <span>Dash Board</span>
+        <LayoutDashboard size={30}/> <span> Dash Board</span>
       </div>
 
       <div

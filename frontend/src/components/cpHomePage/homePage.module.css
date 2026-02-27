@@ -13,7 +13,7 @@ body {
    display: flex; 
    overflow-y: auto;
    background-color: #021027;
-   opacity: 0.9;
+   opacity: 0.95;
    flex-direction: column;
    justify-items: center;
    align-items: center;
@@ -52,7 +52,7 @@ body {
     flex:1.5;
     overflow-y: auto;
     background-color: #021027;
-    opacity: 0.9;
+    opacity: 0.95;
     flex-direction: column;
     align-items: center;
     justify-items: start;
@@ -97,4 +97,12 @@ body {
     overflow-y: auto;
     background-color: #021027;
     border: 1px solid rgba(255, 255, 255, 0.15)
+}
+
+.expandMain .RightPanel {
+  display: none;
+}
+
+.expandMain .MainContent {
+  flex: 6.15;
 }
