@@ -6,19 +6,20 @@
    justify-content: space-between;
    align-items: center;
 
-   height: 120px;
-   background-color: #021027;
+   height: 90px;
+   background-color:  #FFFFFF;
    overflow: hidden;
 
    padding-left: 24px;
    padding-right: 30px;
 
    opacity: 0.95;
-   border: 1px solid rgba(255, 255, 255, 0.15)
+
+   border: 1px solid #e2e8f0;
 }
 
 .navigatorItem {
-   color: white;
+   color: #475569;
    font-weight: 400;
    font-size: larger;
 }
@@ -27,9 +28,9 @@
    display: flex;
    flex-direction: column;
    gap: 4px;
-   color: white;
-   font-weight: 650;
-   font-size:x-large;  
+   color: #000;
+   font-weight: 600;
+   font-size: large;  
    width: 250px;
 }
 
@@ -51,15 +52,16 @@
    display: flex;
    flex-direction: row;
    gap: 2px;
-   background-color: rgba(255,255,255,0.1);
-   color: white;
+   background-color: #eaebed;
+   color: #000;
    padding: 8px;
-   width: 250px;
+   width: 400px;
    height: 40px;
    border-radius: 15px;
    justify-items: center;
    align-items: center;
-   opacity: 0.6;
+   opacity: 0.8;
+   gap: 6px;
 }
 
 .search:hover {
@@ -67,7 +69,7 @@
 }
 
 .button {
-    background: blueviolet;
+    background: #3B82F6;
     color:white;
     font-size: large;
     font-weight: 500;
@@ -75,8 +77,6 @@
     cursor: pointer;
     border-radius: 15px;
     padding: 14px;
-    padding-top: 10px;
-    padding-bottom: 10px;
     display: flex;
     flex-direction: row;
     justify-items: center;
@@ -85,5 +85,5 @@
 
 .button:hover{
     background-color: white;
-    color: blueviolet;
+    color:#3B82F6;
 }

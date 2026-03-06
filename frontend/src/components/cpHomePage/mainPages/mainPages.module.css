@@ -1,0 +1,35 @@
+.header {
+    color: #1E293B;
+    font-size: xx-large;
+    font-weight: 750;
+}
+
+.note {
+    color: #8a9bb2;
+    font-size: medium;
+    font-weight: 400;
+}
+
+.widget {
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
+    align-items: start;
+    color: black;
+    width: 280px;
+    height: 180px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    padding: 16px;
+    gap: 12px;
+}
+
+.widgetTitle {
+    color: #1E293B;
+    font-size: large;
+    font-weight: 600;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}

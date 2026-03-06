@@ -9,16 +9,10 @@ const HeaderHomePage = () => {
    }
    return (
     <div className={`${styles.mainNavigator}`}>
-      <div className='flex flex-row space-x-10 justify-center items-center'>
+      <div className='flex flex-row space-x-12 justify-center items-center'>
        <div className={`${styles.user}`}>
           <Zap className='w-10 h-10 text-blue-700'/> <a>TECHFLOW</a>
-       </div> 
-       <div className={`${styles.sologan}`}>
-          <a>WELLCOME BACK, QUOCHUY</a>
-          <a className='text-sm font-medium'>You have 4 task to wrap up today.</a>
        </div>
-    </div>
-    <div className='flex flex-row space-x-4 justify-center items-center'>
        <div className={`${styles.search}`}>
           <Search /> 
           <input type='text' placeholder='project name' className='border-none outline-none focus:outline-none focus:ring-0'
@@ -29,7 +23,13 @@ const HeaderHomePage = () => {
                      handelSearch()
                   }
                  }}/>
-       </div>
+       </div> 
+       {/* <div className={`${styles.sologan}`}>
+          <a>WELLCOME BACK, QUOCHUY</a>
+          <a className='text-sm font-medium'>You have 4 task to wrap up today.</a>
+       </div> */}
+    </div>
+    <div className='flex flex-row space-x-4 justify-center items-center'>
        <div className={`${styles.button}`}>
             <Plus /> 
             <a> New Project </a>

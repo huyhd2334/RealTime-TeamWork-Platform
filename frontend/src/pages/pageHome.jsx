@@ -1,12 +1,12 @@
 import MainHomePage from '@/components/cpHomePage/MainHomePage.jsx'
 import HeaderHomePage from '@/components/cpMainNavigator/HeaderHomePage.jsx'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const PageHome = () => {
-  return (
+    const userAccount = localStorage.getItem("userAccount") || "guest";  return (
     <div>
       <HeaderHomePage/>
-      <MainHomePage/>
+      <MainHomePage userAccount = {userAccount}/>
     </div>
   )
 }
