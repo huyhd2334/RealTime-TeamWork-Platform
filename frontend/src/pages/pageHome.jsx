@@ -3,7 +3,10 @@ import HeaderHomePage from '@/components/cpMainNavigator/HeaderHomePage.jsx'
 import React, { useEffect } from 'react'
 
 const PageHome = () => {
-    const userAccount = localStorage.getItem("userAccount") || "guest";  return (
+  const str = localStorage.getItem("userAccount") || JSON.stringify({name: "guest"});
+  const userAccount = JSON.parse(str);
+  console.log(userAccount)
+  return (
     <div>
       <HeaderHomePage/>
       <MainHomePage userAccount = {userAccount}/>

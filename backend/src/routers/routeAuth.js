@@ -1,10 +1,10 @@
 import express from "express"
-import {loginAccount,createAccount,logoutAccount, refreshToken} from "../controller/LogicAuth.js"
+import {registerControler, loginController, refreshTokenControler} from "../controller/authControler.js"
 const router = express.Router()
 
-router.post("/login", loginAccount)
-router.post("/signup", createAccount)
-router.post("/logout", logoutAccount)
-router.post("/refresh-accesstoken", refreshToken)
+router.post("/login", loginController)
+router.post("/signup", registerControler)
+router.post("/refresh-accesstoken", refreshTokenControler)
+// router.post("/logout", logoutAccount)
 
 export default router

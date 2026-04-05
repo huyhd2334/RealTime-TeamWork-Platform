@@ -8,7 +8,6 @@ export default function PageRoom() {
   const location = useLocation();
   const { roomCode } = location.state;
   console.log("Room code:", roomCode)
-
   return (
     <div className="min-h-screen w-full relative overflow-hidden">
       

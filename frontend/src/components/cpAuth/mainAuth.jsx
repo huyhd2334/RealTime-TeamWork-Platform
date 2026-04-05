@@ -8,19 +8,21 @@ const mainAuth = () => {
   const [userName, setUserName] = useState("")
   const [accountName, setAccountName] = useState("")
   const [passW, setPassW] = useState("")
-
   const [showSignup, setShowSignup] = useState(false)
   const navigate = useNavigate()
+
   const handleLogin = async() => {
       try{
       // api + jwt
       const res = await api.post("/auth/login", 
-                                 { accountName, passW: passW, device: "web" }, 
-                                 { withCredentials: true }) // cookie refreshToken 
-      if(res.data.message){
-        localStorage.setItem("userAccount", accountName);
-        navigate("/homepage", { state: { user: accountName}})
-        toast.success(res.data.detail)
+                                 { user_account: accountName, password: passW, device: "web" }, 
+                                 { withCredentials: true }) 
+                                 
+      if(res.data.success){
+        localStorage.setItem("userAccount", JSON.stringify(res.data.user));
+
+        navigate("/homepage")
+        toast.success(res.data.message)
         setAccountName("")
         setPassW("")
         }else{toast.error("invalid password or account name")}
@@ -36,7 +38,7 @@ const mainAuth = () => {
         return toast.error("imformation is empty")
       }
       const res = await api.post("/auth/signup", {userName, accountName, passW: passW })
-      if (res.data.message) {
+      if (res.data.success) {
         toast.success("signup successfull")
         toast.info("login now!")
         setShowSignup(pre => !pre)

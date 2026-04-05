@@ -1,11 +1,13 @@
-import mongoose from "mongoose"
+import pkg from "pg"
 
-export const connectDB = async() => {
-    try {
-        await mongoose.connect(process.env.MONGODB_CONNNECTIONSTRING)
-        console.log("Connect DB Mongoose successfully")
-    } catch (error) {
-        console.error("can not connect to database:", error)
-        process.exit(1)
-    }
-}
+const {Pool} = pkg
+
+const pool = new Pool({
+  host: "localhost",
+  user: "postgres",
+  password: "huyhd219205",
+  database: "techflow_db",
+  port: 5432
+});
+
+export default pool;

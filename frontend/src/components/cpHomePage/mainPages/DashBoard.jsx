@@ -6,7 +6,7 @@ const DashBoard = ({userAccount}) => {
   return (
     <div className='flex flex-col space-y-10'>
         <div className='flex flex-col justify-start items-start'>
-            <a className={styles.header}> Welcome back, {userAccount} </a>
+            <a className={styles.header}> Welcome back, {userAccount.user_name} </a>
             <a className={styles.note}> Here's a snapshot of your project performance and operations today.</a>
         </div>
         

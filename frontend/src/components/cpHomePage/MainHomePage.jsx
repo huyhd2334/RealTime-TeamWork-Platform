@@ -8,7 +8,7 @@ const MainHomePage = ({userAccount}) => {
   const [active, setActive] = useState("dashboard")
   return (
     <div className={`${styles.layOut} ${active === "dashboard" ? "" : styles.expandMain}`}>
-        <SideBar active={active} setActive={setActive}/>
+        <SideBar active={active} setActive={setActive} userAccount = {userAccount}/>
         <MainContent userAccount = {userAccount} active = {active}/>
         <RightPanel/>
     </div>

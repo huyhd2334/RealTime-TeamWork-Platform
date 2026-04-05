@@ -9,6 +9,7 @@ body {
 }
 
 .SideBar {
+   position: relative;
    flex: 1.2;
    display: flex; 
    overflow-y: auto;
@@ -112,4 +113,29 @@ body {
 
 .expandMain .MainContent {
   flex: 6.15;
+}
+
+.profileContainer {
+    color: #1E293B;
+    font-size: medium;
+    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 230px;
+    height: 90px;
+    border-radius: 16px;
+    border: 1px solid #dee2eb;
+    padding: 16px;
+    gap: 16px;
+
+    position: absolute;
+    bottom: 100px;
+    left: 10px;
+    cursor: pointer;
+}
+
+.stars {
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+    border: 1px solid #3B82F6;
 }

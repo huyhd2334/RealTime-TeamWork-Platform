@@ -11,16 +11,12 @@ const MainContent = ({ userAccount, active }) => {
     switch (active) {
       case "meeting":
         return <Meeting />;
-
       case "task":
         return <Task />;
-
       case "team":
         return <Team />;
-
       case "setting":
         return <Setting />;
-
       default:
         return <DashBoard userAccount={userAccount} />;
     }

@@ -1,17 +1,18 @@
 import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
-import { connectDB } from "../config/db.js" 
 import cookieParser from "cookie-parser"
 import path from 'path';
 import routerAuth from "./routers/routeAuth.js"
-import { protectedRouter } from "./middlewares/authMiddleware.js"
-import roomRouter from "./routers/routeCrRoom.js"
 import twilio from "twilio"; 
-import Team from "./routers/routeTeam.js"
+import { protectedRouter } from "./middlewares/authMiddleware.js"
+import wordSpaceRouter from "./routers/routeWorkSpace.js"
+import projectRouter from "./routers/routeProject.js"
+// import Team from "./routers/routeTeam.js"
 
 const app = express()
 dotenv.config();
+
 const __dirname = path.resolve();
 
 // middleware
@@ -30,27 +31,15 @@ app.use(cors({
 
 // public router 
 app.use("/api/auth", routerAuth)
+
 // private routers
-app.use("/api", protectedRouter, roomRouter)
-app.use("/api/team", protectedRouter, Team)
+app.use("/api/workspace", protectedRouter, wordSpaceRouter)
+app.use("/api/project", protectedRouter, projectRouter)
 
-const AccessToken = twilio.jwt.AccessToken;
-const VideoGrant = AccessToken.VideoGrant;
+//
 
-app.get("/api/tokentwilio", (req, res) => {
-  const identity = req.query.identity || "user" + Math.floor(Math.random() * 1000);
-  const room = req.query.room || "defaultRoom";
-
-  const token = new AccessToken(
-    process.env.TWILIO_ACCOUNT_SID,
-    process.env.TWILIO_API_KEY,
-    process.env.TWILIO_API_SECRET,
-    { identity }
-  );
-
-  token.addGrant(new VideoGrant({ room }));
-  res.json({ token: token.toJwt(), identity });
-});
+// twilio setup begin
+// twilio setup end
 
 if (process.env.NODE_ENV === "production") {
    app.use(express.static(path.join(__dirname, "../frontend/dist")));
@@ -60,9 +49,27 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// Connect DB and start server
-connectDB().then(() => {
-  app.listen(process.env.PORT, () => {
-    console.log(`Server running at port ${process.env.PORT}`);
-  });
+// Start server
+app.listen(process.env.PORT, () => {
+  console.log(`Server running at port ${process.env.PORT}`);
 });
+
+
+
+// const AccessToken = twilio.jwt.AccessToken;
+// const VideoGrant = AccessToken.VideoGrant;
+
+// app.get("/api/tokentwilio", (req, res) => {
+//   const identity = req.query.identity || "user" + Math.floor(Math.random() * 1000);
+//   const room = req.query.room || "defaultRoom";
+
+//   const token = new AccessToken(
+//     process.env.TWILIO_ACCOUNT_SID,
+//     process.env.TWILIO_API_KEY,
+//     process.env.TWILIO_API_SECRET,
+//     { identity }
+//   );
+//   token.addGrant(new VideoGrant({ room }));
+//   res.json({ token: token.toJwt(), identity });
+// });
+
