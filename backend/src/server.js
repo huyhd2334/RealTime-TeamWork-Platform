@@ -8,8 +8,9 @@ import twilio from "twilio";
 import { protectedRouter } from "./middlewares/authMiddleware.js"
 import wordSpaceRouter from "./routers/routeWorkSpace.js"
 import projectRouter from "./routers/routeProject.js"
-// import Team from "./routers/routeTeam.js"
-
+import taskRouter from "./routers/routeTask.js"
+import subTaskRouter from "./routers/routeSubtask.js";
+import taskCommentRouter from "./routers/routeTaskComment.js"
 const app = express()
 dotenv.config();
 
@@ -35,6 +36,9 @@ app.use("/api/auth", routerAuth)
 // private routers
 app.use("/api/workspace", protectedRouter, wordSpaceRouter)
 app.use("/api/project", protectedRouter, projectRouter)
+app.use("/api/task", protectedRouter, taskRouter)
+app.use("/api/subtask", protectedRouter, subTaskRouter)
+app.use("/api/taskcomment", protectedRouter, taskCommentRouter)
 
 //
 
