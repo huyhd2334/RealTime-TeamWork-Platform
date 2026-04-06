@@ -5,6 +5,6 @@ const wordSpace = express.Router()
 
 wordSpace.post("/create", createWorkSpaceControler)
 wordSpace.post("/addmember", addWorkSpaceMemberControler)
-wordSpace.get("/getworkspace", getUserWorkSpaceControler)
+wordSpace.get("/get", getUserWorkSpaceControler)
 
 export default wordSpace

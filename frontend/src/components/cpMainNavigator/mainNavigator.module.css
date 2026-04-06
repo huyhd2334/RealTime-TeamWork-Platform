@@ -35,7 +35,7 @@
 }
 
 .user {
-   background: linear-gradient(to top right, blue, purple);
+   background: linear-gradient(to top right, rgb(63, 37, 231), rgb(3, 3, 183));
    font-size:xx-large;
    font-weight: 700;
    display: flex;

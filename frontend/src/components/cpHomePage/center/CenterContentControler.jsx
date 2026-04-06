@@ -3,7 +3,7 @@ import styles from '../homePage.module.css'
 import DashBoard from '../sideBar/DashBoard';
 import Task from '../sideBar/Task';
 import Meeting from '../sideBar/Meeting';
-import WorkSpace from '../sideBar/WorkSpace.jsx';
+import WorkSpace from '../sideBar/workSpace/WorkSpace.jsx';
 import Setting from '../sideBar/Setting';
 
 const CenterContentControler = ({ userAccount, active }) => {

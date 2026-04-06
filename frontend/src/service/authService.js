@@ -8,7 +8,7 @@ export const getMeService = async () => {
 export const loginService = async ({ accountName, passW }) => {
   console.log(accountName)
   const res = await api.post("auth/login",{ user_account: accountName, password: passW, device: "web" },
-                                           { withCredentials: true })
+                                          { withCredentials: true })
   return res.data
 }
 

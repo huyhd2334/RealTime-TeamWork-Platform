@@ -4,12 +4,25 @@ import { createWorkSpace, addMemberWorkSpace, findWorkSpaceByUserId } from "../m
 export const createWorkSpaceService = async (data) => {
     const client = await pool.connect()
     try {
-        const workspace_name = data.body.workspace_name
-        const owner_id = data.user.owner_id
+        const {workspace_name, description} = data.body
+        console.log(workspace_name)
+        console.log(description)
+
+        const owner_id = data.user.user_id
+        console.log("user_id", owner_id)
+
         await client.query("BEGIN")
-        const workspace = await createWorkSpace(client, {workspace_name, owner_id})
+        
+        console.log('Calling createWorkSpace...')
+        const workspace = await createWorkSpace(client, {workspace_name, owner_id, description})
+        console.log(workspace)
+        
+        console.log('Adding admin...')
         await addMemberWorkSpace(client, {workspace_id: workspace.workspace_id, user_id: owner_id, role: "admin"})
         await client.query("COMMIT")
+
+        console.log("workspace", workspace)
+
         console.log({success: true, message: "created workspace", workSpace: workspace})
         return {success: true, message: "created workspace", workSpace: workspace}
     } catch (err) {

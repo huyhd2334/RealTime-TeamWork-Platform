@@ -1,9 +1,14 @@
-export const createWorkSpace = async(client, {workspace_name, owner_id}) => {
-    const query = `INSERT INTO workspace (workspace_name, owner_id)
-                    VALUEs ($1, $2)
+export const createWorkSpace = async(client, {workspace_name, owner_id, description}) => {
+    const query = `INSERT INTO workspace (workspace_name, owner_id, description)
+                    VALUES ($1, $2, $3)
                     RETURNING *`
-    const value = [workspace_name, owner_id]
-    const result = await client.query(query, value)
+    const values = [workspace_name, owner_id, description]
+        
+    console.log('Executing query:', query)
+    console.log('With values:', values)
+        
+    const result = await client.query(query, values)
+    console.log('Query result:', result.rows[0])    
     return result.rows[0]
 }
 
@@ -36,8 +41,18 @@ export const addMemberWorkSpace = async (client, { workspace_id, user_id, role }
 }
 
 export const findWorkSpaceByUserId = async (client, user_id) => {
-    const result = client.query(`SELECT DISTINCT ON (workspace_id) * From workspacemembers WHERE user_id = $1`, [user_id])
-    return result
+  const result = await client.query(
+    `SELECT DISTINCT ON (m.workspace_id) 
+        m.workspace_id,
+        w.workspace_name,
+        m.role
+     FROM workspacemembers m
+     JOIN workspace w 
+        ON m.workspace_id = w.workspace_id
+     WHERE m.user_id = $1`,
+    [user_id]
+  )
+  return result.rows
 }
 
 export const checkMember = async(client, {workspace_id, created_by}) => {
