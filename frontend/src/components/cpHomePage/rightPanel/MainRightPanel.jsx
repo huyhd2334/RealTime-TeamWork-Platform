@@ -1,7 +1,7 @@
 import React from 'react'
-import styles from './homePage.module.css'
+import styles from '../homePage.module.css'
 
-const RightPanel = () => {
+const MainRightPanel = () => {
   return (
     <div className={styles.RightPanel}>
       <span className='text-2xl text-black font-semibold'> Message </span>
@@ -32,4 +32,4 @@ const RightPanel = () => {
   )
 }
 
-export default RightPanel
+export default MainRightPanel

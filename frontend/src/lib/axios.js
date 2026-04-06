@@ -12,11 +12,10 @@ const api = axios.create({
 // Gọi API refresh token
 export const getNewAccessToken = async () => {
   try {
-    await api.post("/refresh-accesstoken");
-    return true;
+    await api.post("/auth/refresh-accesstoken");
+    return true
   } catch (err) {
-    window.location.href = "/login";
-    return false;
+    return false
   }
 };
 

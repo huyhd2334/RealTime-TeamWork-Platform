@@ -1,4 +1,12 @@
-.header {
+.headerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 6px;
+    flex-direction: column;
+}
+
+.headerTitle {
     color: #1E293B;
     font-size: xx-large;
     font-weight: 750;
@@ -33,4 +41,5 @@
     align-items: center;
     gap: 10px;
 }
+
 

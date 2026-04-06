@@ -83,6 +83,6 @@ export const refreshTokenControler = async(req, res) => {
     catch (error) {
         return res.status(400).json({
             success: false,
-            message: err.message })
+            message: error.message })
   }
 }

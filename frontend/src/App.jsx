@@ -1,34 +1,31 @@
 import {Toaster} from "sonner"
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import PageLoginSignup from "./pages/pageLoginSignup.jsx"
-import PageCreateRoom from "./pages/pageCreateRoom.jsx"
-import PageRoom from "./pages/PageRoom.jsx"
 import PageHome from "./pages/pageHome.jsx"
+import { AuthProvider } from "./context/AuthContext.jsx" 
+import ProtectedRoute from "./routes/ProtectedRoute.jsx" 
+import GuestRoute from "./routes/GuestRoute.jsx" 
 
 function App() {
   return (
     <>
     <Toaster richColors/>
-    <BrowserRouter>
-        <Routes>
-          <Route
-              path = "/"
-              element = {<PageLoginSignup/>} 
-              />
-          <Route
-              path = "/createroom"
-              element = {<PageCreateRoom/>} 
-              />
-          <Route
-              path = "/liveroom"
-              element = {<PageRoom/>} 
-              />
-          <Route
-              path = "/homepage"
-              element = {<PageHome/>}
-              />
-        </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+        <BrowserRouter>
+            <Routes>
+            <Route
+                path = "/"
+                element = { <GuestRoute>
+                            <PageLoginSignup/>
+                            </GuestRoute>}/>
+            <Route
+                path = "/homepage"
+                element = {<ProtectedRoute>
+                            <PageHome/>
+                            </ProtectedRoute>}/>
+            </Routes>
+        </BrowserRouter>
+    </AuthProvider>
     </>
   )
 }

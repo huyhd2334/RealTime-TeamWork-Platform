@@ -1,4 +1,4 @@
-import MainHomePage from '@/components/cpHomePage/MainHomePage.jsx'
+import MainHomePage from '@/components/cpHomePage/center/MainCenter.jsx'
 import HeaderHomePage from '@/components/cpMainNavigator/HeaderHomePage.jsx'
 import React, { useEffect } from 'react'
 

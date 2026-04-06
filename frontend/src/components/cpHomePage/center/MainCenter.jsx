@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import styles from './homePage.module.css'
-import MainContent from './MainContent.jsx'
-import RightPanel from './RightPanel.jsx'
-import SideBar from './SideBar.jsx'
+import styles from '../homePage.module.css'
+import MainContent from './CenterContentControler.jsx'
+import RightPanel from '../rightPanel/MainRightPanel.jsx'
+import SideBar from '../sideBar/MainSideBar.jsx'
 
-const MainHomePage = ({userAccount}) => {
+const MainCenter = ({userAccount}) => {
   const [active, setActive] = useState("dashboard")
   return (
     <div className={`${styles.layOut} ${active === "dashboard" ? "" : styles.expandMain}`}>
@@ -15,4 +15,4 @@ const MainHomePage = ({userAccount}) => {
   )
 }
 
-export default MainHomePage
+export default MainCenter

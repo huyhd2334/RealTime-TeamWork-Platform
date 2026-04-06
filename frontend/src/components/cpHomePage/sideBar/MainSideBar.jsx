@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import styles from './homePage.module.css'
-import { ClipboardList, LayoutDashboard, Settings, Users, Video } from 'lucide-react'
-import UserProfile from './mainPages/UserProfile'
+import styles from '../homePage.module.css'
+import { CircleUser, ClipboardList, LayoutDashboard, Settings, Users, Video } from 'lucide-react'
+import UserProfile from './UserProfile'
 import { toast } from 'sonner'
 
-const SideBar = ({active, setActive, userAccount}) => {
+const MainSideBar = ({active, setActive, userAccount}) => {
   toast.success(active)
   return (
     <div className={`${styles.SideBar}`}>
@@ -30,10 +30,10 @@ const SideBar = ({active, setActive, userAccount}) => {
       </div>
 
       <div
-        className={`${styles.sideBarOption} ${active === "team" ? styles.activate : ""}`}
-        onClick={() => setActive("team")}
+        className={`${styles.sideBarOption} ${active === "workspace" ? styles.activate : ""}`}
+        onClick={() => setActive("workspace")}
       >
-        <Users size={30}/> <span>Team</span>
+        <Users size={30}/> <span>WorkSpace</span>
       </div>
 
       <div
@@ -42,14 +42,18 @@ const SideBar = ({active, setActive, userAccount}) => {
       >
         <Settings size={30}/> <span>Setting</span>
       </div>
-      <div onClick={() => setActive("user")}>
-        <UserProfile
-          userAccount={userAccount}
-          className={active === "user" ? styles.stars : ""}
-        />      
-      </div>
+
+    <div className={`${styles.profileContainer} ${active === "user" ? styles.stars : ""}` } onClick={() => setActive("user")}>
+       <div>
+          <CircleUser size={36} />
+       </div>
+       <div className='flex flex-col'>
+            <a className='text-lg font-semibold'>{userAccount.user_name}</a>
+            <a className='text-sm'>Account: {userAccount.user_account}</a>
+       </div>
+    </div>
     </div>
   )
 }
 
-export default SideBar
+export default MainSideBar

@@ -32,6 +32,7 @@ app.use(cors({
 
 // public router 
 app.use("/api/auth", routerAuth)
+// public router 
 
 // private routers
 app.use("/api/workspace", protectedRouter, wordSpaceRouter)
@@ -39,8 +40,7 @@ app.use("/api/project", protectedRouter, projectRouter)
 app.use("/api/task", protectedRouter, taskRouter)
 app.use("/api/subtask", protectedRouter, subTaskRouter)
 app.use("/api/taskcomment", protectedRouter, taskCommentRouter)
-
-//
+// private routers
 
 // twilio setup begin
 // twilio setup end

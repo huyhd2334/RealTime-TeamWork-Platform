@@ -1,55 +1,23 @@
 import React, { useState } from 'react'
 import { Button } from '../ui/button'
-import api from '@/lib/axios'
 import { toast } from 'sonner'
-import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@/hooks/useAuth.js'
 
 const mainAuth = () => {
   const [userName, setUserName] = useState("")
   const [accountName, setAccountName] = useState("")
   const [passW, setPassW] = useState("")
   const [showSignup, setShowSignup] = useState(false)
-  const navigate = useNavigate()
+  const { login, signup, loading } = useAuth();
 
-  const handleLogin = async() => {
-      try{
-      // api + jwt
-      const res = await api.post("/auth/login", 
-                                 { user_account: accountName, password: passW, device: "web" }, 
-                                 { withCredentials: true }) 
-                                 
-      if(res.data.success){
-        localStorage.setItem("userAccount", JSON.stringify(res.data.user));
-
-        navigate("/homepage")
-        toast.success(res.data.message)
-        setAccountName("")
-        setPassW("")
-        }else{toast.error("invalid password or account name")}
-      }catch(error){
-        toast.error("error when call login")
-        console.log("error when call /auth/login", error)
-        console.log(error.request)
-      } 
-   }
-  const handleSignup = async() => {
-    try {
-      if (!accountName || !passW || !userName) {
-        return toast.error("imformation is empty")
-      }
-      const res = await api.post("/auth/signup", {userName, accountName, passW: passW })
-      if (res.data.success) {
-        toast.success("signup successfull")
-        toast.info("login now!")
-        setShowSignup(pre => !pre)
-        setUserName("")
-        setAccountName("")
-        setPassW("")
-        } else {toast.error("Account Name invalid!")}
-      }catch (error) {
-        toast.error("error when call signup")
-        console.log("error when call /auth/signup", error)}
+  const handleLogin = () => {
+    login(accountName, passW);
   }
+
+  const handleSignup = () => {
+    signup(userName, accountName, passW);
+  }
+  
   return (
     <div>
       {!showSignup 
