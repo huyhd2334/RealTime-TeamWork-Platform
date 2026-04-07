@@ -6,7 +6,7 @@ import path from 'path';
 import routerAuth from "./routers/routeAuth.js"
 import twilio from "twilio"; 
 import { protectedRouter } from "./middlewares/authMiddleware.js"
-import wordSpaceRouter from "./routers/routeWorkSpace.js"
+import workSpaceRouter from "./routers/routeWorkSpace.js"
 import projectRouter from "./routers/routeProject.js"
 import taskRouter from "./routers/routeTask.js"
 import subTaskRouter from "./routers/routeSubtask.js";
@@ -35,7 +35,7 @@ app.use("/api/auth", routerAuth)
 // public router 
 
 // private routers
-app.use("/api/workspace", protectedRouter, wordSpaceRouter)
+app.use("/api/workspace", protectedRouter, workSpaceRouter)
 app.use("/api/project", protectedRouter, projectRouter)
 app.use("/api/task", protectedRouter, taskRouter)
 app.use("/api/subtask", protectedRouter, subTaskRouter)

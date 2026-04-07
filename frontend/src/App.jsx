@@ -5,6 +5,7 @@ import PageHome from "./pages/pageHome.jsx"
 import { AuthProvider } from "./context/AuthContext.jsx" 
 import ProtectedRoute from "./routes/ProtectedRoute.jsx" 
 import GuestRoute from "./routes/GuestRoute.jsx" 
+import { UIProvider } from "./context/UIContext.jsx"
 
 function App() {
   return (
@@ -20,9 +21,12 @@ function App() {
                             </GuestRoute>}/>
             <Route
                 path = "/homepage"
-                element = {<ProtectedRoute>
-                            <PageHome/>
-                            </ProtectedRoute>}/>
+                element = {<UIProvider>
+                            <ProtectedRoute>
+                                <PageHome/>
+                            </ProtectedRoute>
+                            </UIProvider>
+                        }/>
             </Routes>
         </BrowserRouter>
     </AuthProvider>

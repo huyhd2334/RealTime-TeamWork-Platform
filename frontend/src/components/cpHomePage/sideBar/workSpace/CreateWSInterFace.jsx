@@ -3,7 +3,7 @@ import styles from '../subSideBar.module.css'
 import { useWorkSpace } from '@/hooks/useWorkSpace.js'
 import { toast } from 'sonner'
 
-const CreateWSInterFace = ({userAccount}) => {
+const CreateWSInterFace = ({setMode}) => {
     const [name, setName] = useState("")
     const [des, setDes] = useState("")
     const {createUserWorkSpace, loading} = useWorkSpace()
@@ -21,7 +21,9 @@ const CreateWSInterFace = ({userAccount}) => {
     if(name === ""){
       toast.info("workspace's name is empty")
       return 
-    }else{await createUserWorkSpace({workspace_name: name, description:des})}
+    }else{
+      await createUserWorkSpace({workspace_name: name, description:des})}
+      setMode("view")
   }
   return (
     <div className='flex flex-col space-y-6 w-1/2'>

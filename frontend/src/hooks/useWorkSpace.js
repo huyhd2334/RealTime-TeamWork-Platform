@@ -1,4 +1,4 @@
-import {createUserWorkSpaceService, getWorkSpaceByUserId } from "@/service/workSpaceService"
+import {addMemberService, createUserWorkSpaceService, deleteWorkSpaceService, getWorkSpaceByUserId } from "@/service/workSpaceService"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -42,5 +42,37 @@ export const useWorkSpace = () => {
         console.error(error)
       }
     }
-    return {getUserWorkSpace, createUserWorkSpace, loading}
+
+    const deleteWorkSpace = async(workspace_id) => {
+      try {
+          setLoading(true)
+          const data = await deleteWorkSpaceService(workspace_id)
+          if(data.success){
+            toast.success("Delete Done !")
+          }
+          else{toast.error("Delete Fail")}
+      } catch (error) {
+        toast.error("error when delete workSpace")
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    const addMemberWorkSpace = async({workspace_id, member_id, role}) => {
+      try {
+          setLoading(true)
+          const data = await addMemberService({workspace_id, member_id, role})
+          if(data.success){
+            toast.success("Add Done !" + data.message)
+          }
+          else{toast.error("Add Fail" + data.message)}
+      } catch (error) {
+        toast.error("error when add member workSpace")
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    return {getUserWorkSpace, createUserWorkSpace, deleteWorkSpace, addMemberWorkSpace, loading}
 }

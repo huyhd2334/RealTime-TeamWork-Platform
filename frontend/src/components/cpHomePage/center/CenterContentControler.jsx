@@ -5,10 +5,12 @@ import Task from '../sideBar/Task';
 import Meeting from '../sideBar/Meeting';
 import WorkSpace from '../sideBar/workSpace/WorkSpace.jsx';
 import Setting from '../sideBar/Setting';
+import { useUIContext } from '@/context/UIContext.jsx';
 
-const CenterContentControler = ({ userAccount, active }) => {
+const CenterContentControler = ({ userAccount}) => {
+  const {option} = useUIContext()
   const renderContent = () => {
-    switch (active) {
+    switch (option) {
       case "meeting":
         return <Meeting />;
       case "task":

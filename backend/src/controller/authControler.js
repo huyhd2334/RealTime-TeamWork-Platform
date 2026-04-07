@@ -1,4 +1,4 @@
-import { registerService, loginService } from "../service/authService.js"
+import { registerService, loginService, refreshTokenService } from "../service/authService.js"
 
 // constance
 const REFRESH_TOKEN_TTL = 14 * 24 * 60 * 60 * 1000
@@ -18,6 +18,7 @@ export const registerControler = async(req, res) => {
 
 export const loginController = async (req, res) => {
     try {
+        console.log("LOGIN CONTROLLER RUNNING")
         const result = await loginService(req.body)
         const device = req.body.device
         const user = {user_account: result.user_account, user_name: result.user_name}

@@ -1,10 +1,11 @@
 import express from "express"
-import { addWorkSpaceMemberControler, createWorkSpaceControler, getUserWorkSpaceControler } from "../controller/workspaceControler.js"
+import { addWorkSpaceMemberControler, createWorkSpaceControler, deleteWorkSpaceControler, getUserWorkSpaceControler } from "../controller/workspaceControler.js"
 
-const wordSpace = express.Router()
+const workSpace = express.Router()
 
-wordSpace.post("/create", createWorkSpaceControler)
-wordSpace.post("/addmember", addWorkSpaceMemberControler)
-wordSpace.get("/get", getUserWorkSpaceControler)
+workSpace.post("/create", createWorkSpaceControler)
+workSpace.post("/addmember", addWorkSpaceMemberControler)
+workSpace.get("/get", getUserWorkSpaceControler)
+workSpace.delete("/delete/:id", deleteWorkSpaceControler)
 
-export default wordSpace
+export default workSpace

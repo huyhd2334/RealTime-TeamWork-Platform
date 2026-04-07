@@ -117,8 +117,8 @@ body {
 
 .profileContainer {
     color: #1E293B;
-    font-size: medium;
-    font-weight: 500;
+    font-size: small;
+    font-weight: 600;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -126,8 +126,8 @@ body {
     height: 90px;
     border-radius: 16px;
     border: 1px solid #dee2eb;
-    padding: 16px;
-    gap: 16px;
+    padding: 4px;
+    gap: 8px;
 
     position: absolute;
     bottom: 100px;
@@ -138,4 +138,22 @@ body {
 .stars {
     box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
     border: 1px solid #3B82F6;
+}
+
+.buttonLogOut {
+    display: inline-block;
+    opacity: 0.8;
+    color: aliceblue;
+    background-color: #e71a1a;
+    padding: 4px;
+    border-radius: 10px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    text-align: center;
+}
+
+.buttonLogOut:hover{
+    opacity: 1;
 }

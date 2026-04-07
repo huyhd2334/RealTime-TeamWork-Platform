@@ -1,55 +1,61 @@
-import React, { useEffect, useState } from 'react'
 import styles from '../homePage.module.css'
 import { CircleUser, ClipboardList, LayoutDashboard, Settings, Users, Video } from 'lucide-react'
-import UserProfile from './UserProfile'
 import { toast } from 'sonner'
+import { useUIContext } from '@/context/UIContext.jsx'
+import { useAuthContext } from '@/context/AuthContext'
 
-const MainSideBar = ({active, setActive, userAccount}) => {
-  toast.success(active)
+const MainSideBar = ({userAccount}) => {
+  const {setOption, option} = useUIContext()
+  const {logoutContex} = useAuthContext()
+
   return (
     <div className={`${styles.SideBar}`}>
       <div
-        className={`${styles.sideBarOption} ${active === "dashboard" ? styles.activate : ""}`}
-        onClick={() => setActive("dashboard")}
+        className={`${styles.sideBarOption} ${option === "dashboard" ? styles.activate : ""}`}
+        onClick={() => setOption("dashboard")}
       >
         <LayoutDashboard size={30}/> <span> Dash Board</span>
       </div>
 
       <div
-        className={`${styles.sideBarOption} ${active === "meeting" ? styles.activate : ""}`}
-        onClick={() => setActive("meeting")}
+        className={`${styles.sideBarOption} ${option === "meeting" ? styles.activate : ""}`}
+        onClick={() => setOption("meeting")}
       >
         <Video size={30}/> <span>Meeting</span>
       </div>
 
       <div
-        className={`${styles.sideBarOption} ${active === "task" ? styles.activate : ""}`}
-        onClick={() => setActive("task")}
+        className={`${styles.sideBarOption} ${option === "task" ? styles.activate : ""}`}
+        onClick={() => setOption("task")}
       >
         <ClipboardList size={30}/> <span>Task</span>
       </div>
 
       <div
-        className={`${styles.sideBarOption} ${active === "workspace" ? styles.activate : ""}`}
-        onClick={() => setActive("workspace")}
+        className={`${styles.sideBarOption} ${option === "workspace" ? styles.activate : ""}`}
+        onClick={() => setOption("workspace")}
       >
         <Users size={30}/> <span>WorkSpace</span>
       </div>
 
       <div
-        className={`${styles.sideBarOption} ${active === "setting" ? styles.activate : ""}`}
-        onClick={() => setActive("setting")}
+        className={`${styles.sideBarOption} ${option === "setting" ? styles.activate : ""}`}
+        onClick={() => setOption("setting")}
       >
         <Settings size={30}/> <span>Setting</span>
       </div>
 
-    <div className={`${styles.profileContainer} ${active === "user" ? styles.stars : ""}` } onClick={() => setActive("user")}>
+    <div className={`${styles.profileContainer} ${option === "user" ? styles.stars : ""}` } 
+         onClick={() => setOption("user")}>
        <div>
           <CircleUser size={36} />
        </div>
        <div className='flex flex-col'>
             <a className='text-lg font-semibold'>{userAccount.user_name}</a>
             <a className='text-sm'>Account: {userAccount.user_account}</a>
+       </div>
+       <div className={styles.buttonLogOut} onClick={()=>logoutContex()}>
+          LogOut
        </div>
     </div>
     </div>

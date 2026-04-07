@@ -1,12 +1,18 @@
 import pool from "../../config/db.js"
 
 const findByUserAccount = async(user_account) => {
+        console.log("INPUT user_account:", user_account)
         const result = await pool.query(`SELECT * FROM users WHERE user_account = $1`, [user_account])
         return result.rows[0]
 }
 
 const findByUserId = async(user_id) => {
         const result = await pool.query(`SELECT * FROM  users WHERE user_id = $1`, [user_id])
+        return result.rows[0]
+}
+
+const findByUserIdTx = async(client, user_id) => {
+        const result = await client.query(`SELECT * FROM  users WHERE user_id = $1`, [user_id])
         return result.rows[0]
 }
 
@@ -46,6 +52,7 @@ export {
     deleteUserAccount,
     updateUserAccount,
     addAccount,
-    findByUserId
+    findByUserId,
+    findByUserIdTx
 };
 

@@ -20,6 +20,7 @@ export const deleteWorkSpace = async(client, {workspace_id, owner_id}) => {
 }
 
 export const findByWorkSpaceId = async(client, workspace_id) => {
+    console.log("workspace_id", workspace_id)
     const result = await client.query(`SELECT * FROM workspace WHERE workspace_id=$1`, [workspace_id])
     return result.rows[0]
 }
@@ -33,7 +34,8 @@ export const findByWorkSpaceName = async(client, workspace_name) => {
 
 export const addMemberWorkSpace = async (client, { workspace_id, user_id, role }) => {
     const query = `INSERT INTO workspacemembers (workspace_id, user_id, role)
-                   VALUES ($1, $2, $3)`
+                   VALUES ($1, $2, $3)
+                   RETURNING *`
 
     const values = [workspace_id, user_id, role]
     const result = await client.query(query, values)
@@ -55,7 +57,7 @@ export const findWorkSpaceByUserId = async (client, user_id) => {
   return result.rows
 }
 
-export const checkMember = async(client, {workspace_id, created_by}) => {
-   const result = await client.query(`SELECT * FROM workspacemembers WHERE workspace_id = $1 AND user_id = $2`,[workspace_id, created_by])
+export const checkMember = async(client, {workspace_id, user_id}) => {
+   const result = await client.query(`SELECT * FROM workspacemembers WHERE workspace_id = $1 AND user_id = $2`,[workspace_id, user_id])
    return result
 }

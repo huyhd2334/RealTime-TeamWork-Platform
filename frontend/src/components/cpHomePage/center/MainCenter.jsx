@@ -3,13 +3,14 @@ import styles from '../homePage.module.css'
 import MainContent from './CenterContentControler.jsx'
 import RightPanel from '../rightPanel/MainRightPanel.jsx'
 import SideBar from '../sideBar/MainSideBar.jsx'
+import { useUIContext } from '@/context/UIContext.jsx'
 
 const MainCenter = ({userAccount}) => {
-  const [active, setActive] = useState("dashboard")
+  const {setOption, option} = useUIContext()
   return (
-    <div className={`${styles.layOut} ${active === "dashboard" ? "" : styles.expandMain}`}>
-        <SideBar active={active} setActive={setActive} userAccount = {userAccount}/>
-        <MainContent userAccount = {userAccount} active = {active}/>
+    <div className={`${styles.layOut} ${option === "dashboard" ? "" : styles.expandMain}`}>
+        <SideBar userAccount = {userAccount}/>
+        <MainContent userAccount = {userAccount}/>
         <RightPanel/>
     </div>
   )

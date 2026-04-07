@@ -1,7 +1,7 @@
 import api from '@/lib/axios'
 
 export const getMeService = async () => {
-  const res = await api.get("/auth/me", { withCredentials: true })
+  const res = await api.get("auth/me", { withCredentials: true })
   return res.data
 }
 

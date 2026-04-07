@@ -39,12 +39,12 @@ export const loginService = async (data) => {
         console.log("account: ", checkExisUser)
 
         if (!checkExisUser){
-            throw new Error("user doesn't exist", 404)
+            throw new Error("user doesn't exist (login service)", 404)
         }
 
         // check
         const isPasswCorrect = await bcrypt.compare(password, checkExisUser.password_hash)
-        console.log("password: ",isPasswCorrect)
+        console.log("password: ", isPasswCorrect)
 
         if(!isPasswCorrect){
             throw new Error("pass and hash not correct!")
