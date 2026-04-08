@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import styles from './mainNavigator.module.css'
 import { Plus, Search, Zap } from 'lucide-react'
 import { toast } from 'sonner'
-const HeaderHomePage = () => {
+const MainNavigator = () => {
    const [searchContent, setSearchContent] = useState("")
    const handelSearch = () => {
          toast.info(searchContent)
@@ -35,4 +35,4 @@ const HeaderHomePage = () => {
   )
 }
 
-export default HeaderHomePage
+export default MainNavigator

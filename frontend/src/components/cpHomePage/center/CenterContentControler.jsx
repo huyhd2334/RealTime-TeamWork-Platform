@@ -13,10 +13,10 @@ const CenterContentControler = ({ userAccount}) => {
     switch (option) {
       case "meeting":
         return <Meeting />;
-      case "task":
-        return <Task />;
       case "workspace":
         return <WorkSpace userAccount={userAccount}/>;
+      case "task":
+        return <div> Loading task </div>
       case "setting":
         return <Setting />;
       default:

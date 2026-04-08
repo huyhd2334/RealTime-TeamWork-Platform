@@ -19,16 +19,9 @@ const MainSideBar = ({userAccount}) => {
 
       <div
         className={`${styles.sideBarOption} ${option === "meeting" ? styles.activate : ""}`}
-        onClick={() => setOption("meeting")}
+        // onClick={() => setOption("meeting")}
       >
         <Video size={30}/> <span>Meeting</span>
-      </div>
-
-      <div
-        className={`${styles.sideBarOption} ${option === "task" ? styles.activate : ""}`}
-        onClick={() => setOption("task")}
-      >
-        <ClipboardList size={30}/> <span>Task</span>
       </div>
 
       <div

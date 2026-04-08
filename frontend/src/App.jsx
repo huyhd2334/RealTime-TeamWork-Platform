@@ -6,6 +6,7 @@ import { AuthProvider } from "./context/AuthContext.jsx"
 import ProtectedRoute from "./routes/ProtectedRoute.jsx" 
 import GuestRoute from "./routes/GuestRoute.jsx" 
 import { UIProvider } from "./context/UIContext.jsx"
+import PageProject from "./pages/pageProject.jsx"
 
 function App() {
   return (
@@ -24,6 +25,15 @@ function App() {
                 element = {<UIProvider>
                             <ProtectedRoute>
                                 <PageHome/>
+                                <PageProject/>
+                            </ProtectedRoute>
+                            </UIProvider>
+                        }/>
+            <Route
+                path = "/homepage/project/:id"
+                element = {<UIProvider>
+                            <ProtectedRoute>
+                                <PageProject/>
                             </ProtectedRoute>
                             </UIProvider>
                         }/>

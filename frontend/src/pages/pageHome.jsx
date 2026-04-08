@@ -1,5 +1,5 @@
 import MainHomePage from '@/components/cpHomePage/center/MainCenter.jsx'
-import HeaderHomePage from '@/components/cpMainNavigator/HeaderHomePage.jsx'
+import HeaderHomePage from '@/components/cpMainNavigator/MainNavigator.jsx'
 import React, { useEffect } from 'react'
 
 const PageHome = () => {
