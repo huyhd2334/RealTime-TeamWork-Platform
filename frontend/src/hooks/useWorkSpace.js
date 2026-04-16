@@ -1,12 +1,12 @@
-import {addMemberService, createUserWorkSpaceService, deleteWorkSpaceService, getWorkSpaceByUserId } from "@/service/workSpaceService"
+import {addMemberService, createUserWorkSpaceService, deleteWorkSpaceService, findProjectByWorkspace, getWorkSpaceByUserId } from "@/service/workSpaceService"
 import { useState } from "react"
 import { toast } from "sonner"
 
 export const useWorkSpace = () => {
-    const[loading, setLoading] = useState(false)
+    const[loadingW, setLoadingW] = useState(false)
     const getUserWorkSpace = async() =>{
       try {
-        setLoading(true)
+        setLoadingW(true)
         const data = await getWorkSpaceByUserId()
 
         if(data.success){
@@ -21,13 +21,13 @@ export const useWorkSpace = () => {
         toast.error("error when get user workspaces")
         console.error(error)
       } finally {
-        setLoading(false)
+        setLoadingW(false)
       }
     }
     
     const createUserWorkSpace = async({workspace_name, description}) => {
       try {
-        setLoading(true)
+        setLoadingW(true)
         const data = await createUserWorkSpaceService({workspace_name, description})
         console.log(data)
         if(data.success){
@@ -40,12 +40,14 @@ export const useWorkSpace = () => {
       } catch (error) {
         toast.error("error when create workSpace")
         console.error(error)
+      } finally {
+        setLoadingW(false)
       }
     }
 
     const deleteWorkSpace = async(workspace_id) => {
       try {
-          setLoading(true)
+          setLoadingW(true)
           const data = await deleteWorkSpaceService(workspace_id)
           if(data.success){
             toast.success("Delete Done !")
@@ -55,13 +57,13 @@ export const useWorkSpace = () => {
         toast.error("error when delete workSpace")
         console.error(error)
       } finally {
-        setLoading(false)
+        setLoadingW(false)
       }
     }
 
     const addMemberWorkSpace = async({workspace_id, member_id, role}) => {
       try {
-          setLoading(true)
+          setLoadingW(true)
           const data = await addMemberService({workspace_id, member_id, role})
           if(data.success){
             toast.success("Add Done !" + data.message)
@@ -71,8 +73,27 @@ export const useWorkSpace = () => {
         toast.error("error when add member workSpace")
         console.error(error)
       } finally {
-        setLoading(false)
+        setLoadingW(false)
       }
     }
-    return {getUserWorkSpace, createUserWorkSpace, deleteWorkSpace, addMemberWorkSpace, loading}
+    const getWorkSpaceProject = async(workspace_id) => {
+      try {
+          setLoadingW(true)
+          const data = await findProjectByWorkspace(workspace_id)
+          if(data.success){
+            toast.success(data.message)
+            return data.project
+          }
+          else{
+            toast.error(data.message) 
+            return []
+          }
+      } catch (error) {
+        toast.error("error when get workSpace project")
+        console.error(error)
+      } finally {
+        setLoadingW(false)
+      }
+    }
+    return {getUserWorkSpace, createUserWorkSpace, deleteWorkSpace, addMemberWorkSpace, getWorkSpaceProject, loadingW}
 }

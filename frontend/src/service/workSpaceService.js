@@ -19,3 +19,8 @@ export const addMemberService = async({workspace_id, member_id, role}) => {
     const result = await api.post("/workspace/addmember", {workspace_id, member_id, role}, {withCredentials:true})
     return result.data
 }
+
+export const findProjectByWorkspace = async(project_id) => {
+    const result = await api.get(`/workspace/get/projects/${project_id}`, { withCredentials: true})
+    return result.data
+}

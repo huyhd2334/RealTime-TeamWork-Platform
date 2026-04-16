@@ -6,33 +6,33 @@ const DashBoard = ({userAccount}) => {
   return (
     <div className='flex flex-col space-y-10'>
         <div className='flex flex-col justify-start items-start'>
-            <a className={styles.headerTitle}> Welcome back, {userAccount.user_name} </a>
-            <a className={styles.note}> Here's a snapshot of your project performance and operations today.</a>
+            <h1 className={styles.headerTitle}> Welcome back, {userAccount.user_name} </h1>
+            <h1 className={styles.note}> Here's a snapshot of your project performance and operations today.</h1>
         </div>
         
         {/* OverView */}
         <div className='flex flex-col'>
-            <a className="text-3xl text-[#475569] font-semibold"> OverView</a>
-            <a className={styles.note}>provides a quick summary of your current activities, including tasks, meetings, and recent updates.</a>
+            <h1 className="text-3xl text-[#475569] font-semibold"> OverView</h1>
+            <h1 className={styles.note}>provides a quick summary of your current activities, including tasks, meetings, and recent updates.</h1>
         </div>
         <div className='flex flex-row space-x-6'>
             <div className={styles.widget}>
                 <div className={styles.widgetTitle}> <a>Tasks Summary</a> <ClipboardCheck/> </div>
-                <a> Total 24 </a>
-                <a> Completed 15 </a>
-                <a> Overdue 2 </a>
+                <span> Total 24 </span>
+                <span> Completed 15 </span>
+                <span> Overdue 2 </span>
             </div> 
             <div className={styles.widget}>
-                <a className={styles.widgetTitle}> <a>Upcoming Meeting</a> <Projector /></a>
-                <a> 10:00 Standup </a>
-                <a> 13:30 Review </a>
-                <a> 16:00 Client </a>
+                <span className={styles.widgetTitle}> <span>Upcoming Meeting</span> <Projector /></span>
+                <span> 10:00 Standup </span>
+                <span> 13:30 Review </span>
+                <span> 16:00 Client </span>
             </div> 
             <div className={styles.widget}>
-                <a className={styles.widgetTitle}> <a>Activity Feed</a> <ActivityIcon /> </a>
-                <a> 10:00 Standup </a>
-                <a> 13:30 Review </a>
-                <a> 16:00 Client </a>
+                <span className={styles.widgetTitle}> <span>Activity Feed</span> <ActivityIcon /> </span>
+                <span> 10:00 Standup </span>
+                <span> 13:30 Review </span>
+                <span> 16:00 Client </span>
             </div> 
         </div>
     </div>

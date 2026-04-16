@@ -5,5 +5,5 @@ const taskRouter = express.Router()
 
 taskRouter.post("/create", createTaskControler)
 taskRouter.delete("/delete/:id", deleteTaskControler)
-
+taskRouter.get("/get")
 export default taskRouter

@@ -1,11 +1,12 @@
 import express from "express"
-import { createProjectControler, deleteProjectControler, findByProjectIdControler, findByProjectNameControler } from "../controller/projectControler.js"
+import { createProjectControler, deleteProjectControler, findByProjectIdControler, findByProjectNameControler, getProjectAndTaskControler } from "../controller/projectControler.js"
 
 const projectRouter = express.Router()
 
-projectRouter.get("/find-id/:id", findByProjectIdControler)
+projectRouter.get("/find/:id", findByProjectIdControler)
 projectRouter.post("/create", createProjectControler)
 projectRouter.delete("/delete/:id", deleteProjectControler)
-projectRouter.get("/find-name/:name", findByProjectNameControler)
+projectRouter.get("/task/:id", getProjectAndTaskControler)
+// projectRouter.get("/find-name/:name", findByProjectNameControler)
 
 export default projectRouter

@@ -36,4 +36,42 @@ export const roleCheck = async(client, {project_id, created_by}) => {
     return result.rows
 }
 
+export const getProjectAndTask = async (client, project_id) => {
+    const result = await client.query(
+        `
+        SELECT 
+            p.project_id,
+            p.project_name,
+            t.task_id,
+            t.title AS task_title,
+            t.description AS task_description
+        FROM projects p
+        LEFT JOIN tasks t
+            ON p.project_id = t.project_id
+        WHERE p.project_id = $1
+        `,
+        [project_id]
+    );
 
+    if (result.rows.length === 0) {
+        return null;
+    }
+
+    const project = {
+        project_id: result.rows[0].project_id,
+        project_name: result.rows[0].project_name,
+        tasks: []
+    };
+
+    result.rows.forEach(row => {
+        if (row.task_id) {
+            project.tasks.push({
+                task_id: row.task_id,
+                title: row.task_title,
+                description: row.task_description
+            });
+        }
+    });
+
+    return project;
+};

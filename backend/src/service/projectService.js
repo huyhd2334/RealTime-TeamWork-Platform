@@ -1,15 +1,15 @@
 import pool from "../../config/db.js";
-import { createProject, deleteProject, findByProjectId, findByProjectName, roleCheck } from "../models/projectModel.js";
+import { createProject, deleteProject, findByProjectId, findByProjectName, getProjectAndTask, roleCheck } from "../models/projectModel.js";
 import { checkMember } from "../models/workSpaceModel.js";
 
 export const createProjectService = async (data) => {
     const client = await pool.connect()
     try {
         const {workspace_id, project_name, description, status} = data.body
-        const created_by = data.user.user_id
+        const user = data.user.user_id
 
         await client.query("BEGIN")
-        const check = await checkMember(client,{workspace_id, created_by})
+        const check = await checkMember(client,{workspace_id, user})
         
         if (check.length === 0) {
            throw new Error("You are not in this workspace")}
@@ -74,6 +74,42 @@ export const findByProjectNameService = async(data) => {
         const project = await findByProjectName(client, project_name)
         return {success: true, message: "Found Projects successfully", project: project}
 
+    } catch (error) {
+        throw error
+    }finally{
+        client.release()
+    }
+}
+
+export const getProjectAndTaskService = async(data) => {
+    const client = await pool.connect()
+    try {
+        const project_id = data.params.id
+        const user = data.user.user_id
+        
+        await client.query("BEGIN")
+       
+        console.log("project id", project_id)
+        const project = await findByProjectId(client, project_id)
+        
+        console.log("project", project)
+
+        const workspace_id = project.workspace_id
+    
+        console.log("check member", user)
+        const check = await checkMember(client,{workspace_id, user})
+
+        if(check.length === 0){
+           throw new Error("You are not in this workspace")
+        }
+
+        console.log("fetching...")
+        const result = await getProjectAndTask(client, project_id)
+        console.log("fetch done !")
+        console.log("result", result)
+        
+        await client.query("COMMIT")
+        return {success: true, message: "fetch done", project_task: result}
     } catch (error) {
         throw error
     }finally{

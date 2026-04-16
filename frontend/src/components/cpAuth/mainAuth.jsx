@@ -8,7 +8,7 @@ const mainAuth = () => {
   const [accountName, setAccountName] = useState("")
   const [passW, setPassW] = useState("")
   const [showSignup, setShowSignup] = useState(false)
-  const { login, signup, loading } = useAuth();
+  const { login, signup } = useAuth();
 
   const handleLogin = () => {
     login(accountName, passW);

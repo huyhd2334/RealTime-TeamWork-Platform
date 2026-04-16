@@ -1,6 +1,6 @@
 import pool from "../../config/db.js";
 import { findByUserIdTx } from "../models/userModel.js";
-import { createWorkSpace, addMemberWorkSpace, findWorkSpaceByUserId, deleteWorkSpace, findByWorkSpaceId, checkMember} from "../models/workSpaceModel.js";
+import { createWorkSpace, addMemberWorkSpace, findWorkSpaceByUserId, deleteWorkSpace, findByWorkSpaceId, checkMember, getWorkSpaceProject} from "../models/workSpaceModel.js";
 
 export const createWorkSpaceService = async (data) => {
     const client = await pool.connect()
@@ -136,6 +136,27 @@ export const deleteUserWorkSpaceService = async(data) => {
 
         await client.query("COMMIT")
         return {success: true, message: "Deleted workspaces", workspace: deleWorkSpace}
+
+    } catch (error) {
+        await client.query("ROLLBACK")
+        throw error
+    }finally{
+        client.release()
+    }
+}
+
+export const getProjectService = async(data) => {
+    const client = await pool.connect()
+    try {
+        await client.query("BEGIN")
+        
+        const workspace_id = data.params.id
+        console.log("workspace_id", workspace_id)
+        console.log("loading projects.....")
+        const project = await getWorkSpaceProject(client, workspace_id)
+        console.log("loading projects Done .....")
+        await client.query("COMMIT")
+        return {success: true, message: "Got projects", project: project}
 
     } catch (error) {
         await client.query("ROLLBACK")
