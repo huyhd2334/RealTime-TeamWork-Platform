@@ -1,22 +1,22 @@
 import pool from "../../config/db.js";
 import { checkMember } from "../models/workSpaceModel.js";
 import { roleCheck } from "../models/projectModel.js";
-import { createSubTask, deleteSubTask, findBySubTaskId } from "../models/subtaskModel.js";
+import { createSubTask, deleteSubTask, findBySubTaskId, findSubTaskByTaskId } from "../models/subtaskModel.js";
 import { findByTaskId } from "../models/taskModel.js";
 
 export const createSubTaskService = async (data) => {
     const client = await pool.connect()
     try {
         const {workspace_id, task_id, title, status} = data.body
-        const created_by = data.user.user_id
+        const user_id = data.user.user_id
 
         await client.query("BEGIN")
-        const check = await checkMember(client,{workspace_id, created_by})
+        const check = await checkMember(client,{workspace_id, user_id})
         
         if (check.length === 0) {
            throw new Error("You are not in this workspace")}
         
-        const subTask = await createSubTask(client, {task_id, title, status, created_by})
+        const subTask = await createSubTask(client, {task_id, title, status, created_by: user_id})
         await client.query("COMMIT")
 
         console.log({success: true, message: "created subtask", subTask: subTask})
@@ -55,6 +55,41 @@ export const deleteSubTaskService = async(data) => {
         await client.query("ROLLBACK")
         throw error
     }finally{
+        client.release()
+    }
+}
+
+export const getSubTaskService = async(data) => {
+    const client = await pool.connect()
+    try {
+        const task_id = data.params.task_id
+        console.log("task_id", task_id)
+         
+        const workspace_id = data.params.workspace_id
+        console.log("workspace_id", workspace_id)
+
+        const user_id = data.user.user_id
+        console.log("user_id", user_id)
+
+        await client.query("BEGIN")
+
+        console.log("check member")
+        const check = await checkMember(client,{workspace_id, user_id})
+        
+        if (check.length === 0) {
+           throw new Error("You are not in this workspace")}
+           
+        console.log("member")
+        
+        const subTask = await findSubTaskByTaskId(client, task_id)
+        console.log("subTask", subTask)
+
+        await client.query("COMMIT")
+        return {success: true, message: "Got subtasks", subTask: subTask }
+
+    } catch (error) {
+        await client.query("ROLLBACK")
+    } finally {
         client.release()
     }
 }

@@ -1,88 +1,104 @@
 import React, { useEffect, useState } from 'react'
 import styles from './projectUI.module.css'
 import { useWorkSpace } from '@/hooks/useWorkSpace.js'
-import { useTask } from '@/hooks/useTask.js'
+import { Button } from '@/components/ui/button'
+import ProjectItem from './ProjectItem'
 
 const MainProject = ({ id }) => {
-  const [projects, setProjects] = useState([])
-  const [tasks, setTasks] = useState([])
+  const [workspace, setWorkspace] = useState([])
+  const { getWorkspaceFull } = useWorkSpace()
 
-  const { getWorkSpaceProject } = useWorkSpace()
-  const { fetchTaskByProject } = useTask()
+  const buildWorkspaceTree = (rows) => {
+    const projectMap = new Map()
 
-  const fetchProjects = async () => {
+    rows.forEach(row => {
+      let project = projectMap.get(row.project_id)
+
+      if (!project) {
+        project = {
+          project_id: row.project_id,
+          project_name: row.project_name,
+          project_description: row.project_description,
+          project_status: row.project_status,
+          tasks: []
+        }
+        projectMap.set(row.project_id, project)
+      }
+
+      if (!row.task_id) return
+
+      let task = project.tasks.find(t => t.task_id === row.task_id)
+
+      if (!task) {
+        task = {
+          task_id: row.task_id,
+          title: row.task_title,
+          description: row.task_description,
+          status: row.task_status,
+          priority: row.priority,
+          deadline: row.deadline,
+          assigned_to: row.assigned_to,
+          subTasks: [],
+          comments: [],
+          attachments: []
+        }
+        project.tasks.push(task)
+      }
+
+      if (row.subtask_id && !task.subTasks.find(st => st.subtask_id === row.subtask_id)) {
+        task.subTasks.push({
+          subtask_id: row.subtask_id,
+          title: row.subtask_title,
+          status: row.subtask_status
+        })
+      }
+
+      if (row.comment_id && !task.comments.find(c => c.comment_id === row.comment_id)) {
+        task.comments.push({
+          comment_id: row.comment_id,
+          content: row.comment_content,
+          user_id: row.comment_user_id,
+          created_at: row.comment_created_at
+        })
+      }
+
+      if (row.attachment_id && !task.attachments.find(a => a.attachment_id === row.attachment_id)) {
+        task.attachments.push({
+          attachment_id: row.attachment_id,
+          file_url: row.file_url,
+          uploaded_by: row.uploaded_by
+        })
+      }
+    })
+
+    return Array.from(projectMap.values())
+  }
+
+  const fetchWorkspace = async () => {
     if (!id) return
-
-    const res = await getWorkSpaceProject(id)
-    setProjects(res || [])
+    const res = await getWorkspaceFull(id)
+    const tree = buildWorkspaceTree(res?.data || [])
+    setWorkspace(tree)
   }
 
   useEffect(() => {
-    fetchProjects()
+    fetchWorkspace()
   }, [id])
 
-  const handleGetTasks = async (project_id) => {
-    const exists = tasks.some(item => item.project_id === project_id)
-    if (exists) return
-
-    const res = await fetchTaskByProject(project_id)
-
-    if (res?.project_task) {
-      setTasks(prev => [
-        ...prev,
-        {
-          project_id,
-          tasks: res.project_task
-        }
-      ])
-    }
-  }
-
   return (
-    <div className="flex flex-col p-12 space-y-5">
-      <h1 className={styles.title}>WorkSpace ID: {id}</h1>
-
-      <div>
-        {projects.length === 0 ? (
-          <h1 className={styles.subTitle}>
-            Project is empty, Create new one.
-          </h1>
-        ) : (
-          projects.map((pj) => {
-            const projectTask = tasks.find(
-              item => item.project_id === pj.project_id
-            )
-
-            return (
-              <div key={pj.project_id}>
-                <div
-                  className={styles.headerProject}
-                  onClick={() => handleGetTasks(pj.project_id)}
-                >
-                  <span>Project Name: {pj.project_name} - </span>
-                  <span>ID: {pj.project_id} - </span>
-                  <span>Status: {pj.status}</span>
-                </div>
-
-                {projectTask?.tasks?.length > 0 && (
-                  <div className="ml-8 mt-2 space-y-2">
-                    {projectTask.tasks.map((t) => (
-                      <div
-                        key={t.task_id}
-                        className={styles.headerProject}
-                      >
-                        <span>Task Name: {t.title} - </span>
-                        <span>ID: {t.task_id} - </span>
-                        <span>Description: {t.description}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )
-          })
-        )}
+    <div className="flex flex-col p-12 space-y-6">
+      <div className='flex space-x-4 items-center'>
+        <h1 className={styles.title}>Workspace ID: {id}</h1>
+        <Button className="bg-green-500">+ New Project</Button>
       </div>
+
+      {workspace.length === 0 ? (
+        <h2 className={styles.subTitle}>No project found</h2>
+      ) : (
+        workspace.map(project => (
+          <ProjectItem key={project.project_id} project={project} />
+        ))
+      )}
     </div>
   )
 }

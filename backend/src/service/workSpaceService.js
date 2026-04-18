@@ -1,6 +1,6 @@
 import pool from "../../config/db.js";
 import { findByUserIdTx } from "../models/userModel.js";
-import { createWorkSpace, addMemberWorkSpace, findWorkSpaceByUserId, deleteWorkSpace, findByWorkSpaceId, checkMember, getWorkSpaceProject} from "../models/workSpaceModel.js";
+import { createWorkSpace, addMemberWorkSpace, findWorkSpaceByUserId, deleteWorkSpace, findByWorkSpaceId, checkMember, getWorkSpaceProject, getFull} from "../models/workSpaceModel.js";
 
 export const createWorkSpaceService = async (data) => {
     const client = await pool.connect()
@@ -162,6 +162,30 @@ export const getProjectService = async(data) => {
         await client.query("ROLLBACK")
         throw error
     }finally{
+        client.release()
+    }
+}
+
+export const getFullService = async(data) => {
+    const client = await pool.connect()
+    try {
+        const workspace_id = data.params.id
+        const user_id = data.user.user_id
+
+        await client.query("BEGIN")
+        const check = await checkMember(client,{workspace_id, user_id})
+        
+        if (check.length === 0) {
+           throw new Error("You are not in this workspace")}
+        
+        const fullData = await getFull(client, workspace_id)
+        await client.query("COMMIT")
+
+        return {success: true, message: "got full workspace", data: fullData}
+    } catch (err) {
+        await client.query("ROLLBACK")
+        throw err
+    } finally {
         client.release()
     }
 }

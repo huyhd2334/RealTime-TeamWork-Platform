@@ -6,16 +6,15 @@
     font-size: x-large;
     font-weight: 600;
 }
+
 .headerProject {
     display: flex;
     flex-direction: row;
     padding: 12px;
     gap: 12px;
     border-radius: 10px;
-    border: 1px solid rgb(222, 215, 215);
     font-size: x-large;
-    font-weight: 600;
-    cursor: pointer;
+    font-weight: 350;
 }
 
 
@@ -24,4 +23,34 @@
     flex-direction: column;
     padding-left: 32px;
     padding-top: 16px;
+    padding-right: 32px;
+    border-radius: 15px;
+    border: 1px solid rgb(175, 173, 203);
+   
+}
+
+.task {
+    display: flex;
+    flex-direction: row;
+    padding: 12px;
+    gap: 12px;
+    font-size: medium;
+    font-weight: 500;
+    align-items: center;
+    border-bottom: 1px solid rgb(222, 215, 215);
+}
+
+
+.status {
+    background-color: rgb(240, 53, 53);
+    color: white;
+    border-radius: 12px;
+    padding: 4px;
+}
+
+.statusDone {
+    background-color: rgb(240, 53, 53);
+    color: white;
+    border-radius: 12px;
+    padding: 4px;
 }

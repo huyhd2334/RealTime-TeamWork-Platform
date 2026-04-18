@@ -1,4 +1,4 @@
-import { addMemberWorkSpaceService, createWorkSpaceService, deleteUserWorkSpaceService, getProjectService, getUserWorkSpaceService } from "../service/workSpaceService.js"
+import { addMemberWorkSpaceService, createWorkSpaceService, deleteUserWorkSpaceService, getFullService, getProjectService, getUserWorkSpaceService } from "../service/workSpaceService.js"
 
 export const createWorkSpaceControler = async(req, res) => {
     try {
@@ -52,6 +52,16 @@ export const getUserWorkSpaceControler = async(req, res) => {
 export const getWorkSpaceProjectControler = async(req, res) => {
     try {
         const result = await getProjectService(req)
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(400).json({success: false, message: error.message})
+    }
+}
+
+export const getFullControler = async(req, res) => {
+    try {
+        const result = await getFullService(req)
+        console.log(result)
         res.status(200).json(result)
     } catch (error) {
         res.status(400).json({success: false, message: error.message})

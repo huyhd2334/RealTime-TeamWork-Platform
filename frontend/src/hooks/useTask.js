@@ -8,11 +8,11 @@ export const useTask = () => {
     const fetchTaskByProject = async(project_id) => {
       try {
         setLoadingT(true)
-        const data = await getTaskService(workspace_id)
+        const data = await getTaskService(project_id)
         console.log(data)
         if(data.success){
           toast.success("Got Task")
-          return data.success
+          return data
         }else{
           toast.error("Get task Error")
           return data.success   

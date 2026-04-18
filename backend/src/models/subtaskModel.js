@@ -14,9 +14,28 @@ export const deleteSubTask = async(client, subtask_id) => {
     return result.rows[0]
 }
 
-export const findSubTaskByTaskId = async(client, task_id) => {
-    const result = await client.query(`SELECT * FROM subtasks WHERE task_id=$1`, [task_id])
-    return result.rows
+export const findSubTaskByTaskId = async (client, task_id) => {
+    const result = await client.query(
+        `SELECT * FROM subtasks WHERE task_id=$1`,
+        [task_id]
+    )
+
+    const subTask = {
+        task_id,
+        subTasks: []
+    }
+
+    result.rows.forEach(row => {
+        subTask.subTasks.push({
+            subTask_id: row.subtask_id,
+            title: row.title,
+            status: row.status,
+            created_at: row.created_at,
+            created_by: row.created_by
+        })
+    })
+
+    return subTask
 }
 
 export const findBySubTaskId = async(client, subtask_id) => {

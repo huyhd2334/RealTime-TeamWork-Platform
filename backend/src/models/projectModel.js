@@ -44,7 +44,8 @@ export const getProjectAndTask = async (client, project_id) => {
             p.project_name,
             t.task_id,
             t.title AS task_title,
-            t.description AS task_description
+            t.description AS task_description,
+            t.assigned_to AS assigned_to
         FROM projects p
         LEFT JOIN tasks t
             ON p.project_id = t.project_id
@@ -68,10 +69,13 @@ export const getProjectAndTask = async (client, project_id) => {
             project.tasks.push({
                 task_id: row.task_id,
                 title: row.task_title,
-                description: row.task_description
+                description: row.task_description,
+                assigned_to: row.assigned_to
             });
         }
     });
 
     return project;
 };
+
+

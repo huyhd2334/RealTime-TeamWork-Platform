@@ -20,7 +20,12 @@ export const addMemberService = async({workspace_id, member_id, role}) => {
     return result.data
 }
 
-export const findProjectByWorkspace = async(project_id) => {
+export const findProjectByWorkspaceService = async(project_id) => {
     const result = await api.get(`/workspace/get/projects/${project_id}`, { withCredentials: true})
+    return result.data
+}
+
+export const getAllService = async(project_id) => {
+    const result = await api.get(`/workspace/get/full/${project_id}`, { withCredentials: true})
     return result.data
 }

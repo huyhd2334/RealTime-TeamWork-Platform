@@ -1,4 +1,4 @@
-import {addMemberService, createUserWorkSpaceService, deleteWorkSpaceService, findProjectByWorkspace, getWorkSpaceByUserId } from "@/service/workSpaceService"
+import {addMemberService, createUserWorkSpaceService, deleteWorkSpaceService, findProjectByWorkspaceService, getAllService, getWorkSpaceByUserId } from "@/service/workSpaceService.js"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -79,7 +79,7 @@ export const useWorkSpace = () => {
     const getWorkSpaceProject = async(workspace_id) => {
       try {
           setLoadingW(true)
-          const data = await findProjectByWorkspace(workspace_id)
+          const data = await findProjectByWorkspaceService(workspace_id)
           if(data.success){
             toast.success(data.message)
             return data.project
@@ -93,7 +93,27 @@ export const useWorkSpace = () => {
         console.error(error)
       } finally {
         setLoadingW(false)
+      }}
+
+    const getWorkspaceFull = async(workspace_id) => {
+      try {
+          setLoadingW(true)
+          const data = await getAllService(workspace_id)
+          if(data.success){
+            toast.success(data.message)
+            return data
+          }
+          else{
+            toast.error(data.message) 
+            return []
+          }
+      } catch (error) {
+        toast.error("error when get all ")
+        console.error(error)
+      } finally {
+        setLoadingW(false)
       }
+ 
     }
-    return {getUserWorkSpace, createUserWorkSpace, deleteWorkSpace, addMemberWorkSpace, getWorkSpaceProject, loadingW}
+    return {getUserWorkSpace, createUserWorkSpace, deleteWorkSpace, addMemberWorkSpace, getWorkSpaceProject, getWorkspaceFull, loadingW}
 }
